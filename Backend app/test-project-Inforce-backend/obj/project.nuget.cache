@@ -1,14 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "eAmvqHNwJr8L8n0YlF2hDHJUceUL1W+AAw1GQVJ2YDJU6pWQALxB1bEfAaJCK1rrnXWOsCxp4ZynmJlKPKF+9w==",
+  "dgSpecHash": "iL/EQwXR4NIZga8OnpdP4JkwmUlAFo/3LT5JURmlwUJqh6GvR5Rqv5Ky5yXmuRoq4TLTZE/8UhEccES6J/PfDQ==",
   "success": true,
   "projectFilePath": "D:\\data\\code\\test project Inforce\\Backend app\\test-project-Inforce-backend\\test-project-Inforce-backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mrart\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\mrart\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\mrart\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\mrart\\.nuget\\packages\\dotnetenv\\2.5.0\\dotnetenv.2.5.0.nupkg.sha512",
     "C:\\Users\\mrart\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\mrart\\.nuget\\packages\\log4net\\2.0.15\\log4net.2.0.15.nupkg.sha512",
+    "C:\\Users\\mrart\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.11\\microsoft.aspnetcore.authentication.jwtbearer.7.0.11.nupkg.sha512",
     "C:\\Users\\mrart\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.11\\microsoft.aspnetcore.openapi.7.0.11.nupkg.sha512",
     "C:\\Users\\mrart\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\mrart\\.nuget\\packages\\microsoft.codeanalysis.fxcopanalyzers\\3.3.2\\microsoft.codeanalysis.fxcopanalyzers.3.3.2.nupkg.sha512",

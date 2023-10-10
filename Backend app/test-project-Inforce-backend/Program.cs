@@ -1,16 +1,66 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using test_project_Inforce_backend.Data;
+
 namespace test_project_Inforce_backend;
 public class Program
 {
     public static void Main(string[] args)
     {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        Console.OutputEncoding = Encoding.GetEncoding(1251);
+        Console.InputEncoding = Encoding.GetEncoding(1251);
+
+        DotNetEnv.Env.Load(".env");
+
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
         builder.Services.AddControllers();
+        builder.Services.AddDbContext<TestProjectDbContext>(options =>
+            options.UseSqlServer(builder.Configuration["DbConnectionString"]));
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        //builder.Services.AddSwaggerGen(options =>
+        //{
+        //    options.SwaggerDoc("v1", new OpenApiInfo
+        //    {
+        //        Version = "v1",
+        //        Title = "ToDo API",
+        //        Description = "An ASP.NET Core Web API for managing ToDo items",
+        //        TermsOfService = new Uri("https://example.com/terms"),
+        //        Contact = new OpenApiContact
+        //        {
+        //            Name = "Example Contact",
+        //            Url = new Uri("https://example.com/contact")
+        //        },
+        //        License = new OpenApiLicense
+        //        {
+        //            Name = "Example License",
+        //            Url = new Uri("https://example.com/license")
+        //        }
+        //    });
+
+        //    //using System.Reflection;
+        //    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        //    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        //});
+
+        builder.Services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(x =>
+        {
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+
+            };
+        });
 
         var app = builder.Build();
 
@@ -20,9 +70,23 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        else
+        {
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
 
         app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            options.RoutePrefix = string.Empty;
+        });
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
 

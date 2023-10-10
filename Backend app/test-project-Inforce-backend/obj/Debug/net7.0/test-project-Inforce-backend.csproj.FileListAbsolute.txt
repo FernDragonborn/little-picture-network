@@ -78,3 +78,5 @@ D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\D
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net7.0\test-project-Inforce-backend.pdb
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net7.0\test-project-Inforce-backend.genruntimeconfig.cache
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net7.0\ref\test-project-Inforce-backend.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\BCrypt.Net-Next.dll
