@@ -5,6 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 /// Baseclass that allows persisting of scalar values as a collection (which is not supported by EF 4.3)
 /// </summary>
 /// <typeparam name="T">Type of the single collection entry that should be persisted.</typeparam>
+
+[ComplexType]
+public class EFGuidCollection : EFPrimitiveCollection<Guid>
+{
+    public override Guid ConvertFromString(string value) => Guid.Parse(value);
+    public override string ConvertToString(Guid value) => value.ToString();
+}
+
+
 [ComplexType]
 public class EFIntCollection : EFPrimitiveCollection<int>
 {
@@ -16,7 +25,8 @@ public class EFIntCollection : EFPrimitiveCollection<int>
 [ComplexType]
 public abstract class EFPrimitiveCollection<T> : IList<T>
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public virtual int Id { get; set; }
 
     const string DefaultValueSeperator = "|";
@@ -53,7 +63,7 @@ public abstract class EFPrimitiveCollection<T> : IList<T>
         }
     }
 
-    public EFPrimitiveCollection()
+    protected EFPrimitiveCollection()
     {
         _data = new List<T>();
     }

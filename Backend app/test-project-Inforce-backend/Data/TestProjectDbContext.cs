@@ -11,12 +11,14 @@ public class TestProjectDbContext : DbContext
 
     public DbSet<User> Users { get; set; } = null!;
 
-    public DbSet<Like> Likes { get; set; } = null!;
+    public DbSet<Photo> Photos { get; set; } = null!;
+
+    public DbSet<Album> Albums { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer();
-        optionsBuilder.EnableSensitiveDataLogging();
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder builder)

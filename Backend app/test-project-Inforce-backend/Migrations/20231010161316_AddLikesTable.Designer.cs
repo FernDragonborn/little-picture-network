@@ -12,8 +12,8 @@ using test_project_Inforce_backend.Data;
 namespace test_project_Inforce_backend.Migrations
 {
     [DbContext(typeof(TestProjectDbContext))]
-    [Migration("20231009211401_TryAddForeignKeyToPhoto")]
-    partial class TryAddForeignKeyToPhoto
+    [Migration("20231010161316_AddLikesTable")]
+    partial class AddLikesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,14 +31,11 @@ namespace test_project_Inforce_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AlbumId");
@@ -59,6 +56,12 @@ namespace test_project_Inforce_backend.Migrations
                     b.Property<bool>("LikeState")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("PhotoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("LikeId");
 
                     b.ToTable("Likes");
@@ -73,9 +76,6 @@ namespace test_project_Inforce_backend.Migrations
                     b.Property<Guid?>("AlbumId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<long>("Dislikes")
                         .HasColumnType("bigint");
 
@@ -83,14 +83,17 @@ namespace test_project_Inforce_backend.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PhotoId");
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Photos");
                 });
@@ -103,15 +106,17 @@ namespace test_project_Inforce_backend.Migrations
 
                     b.Property<string>("Login")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("PsswordHash")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -119,7 +124,8 @@ namespace test_project_Inforce_backend.Migrations
 
                     b.Property<string>("Salt")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.HasKey("UserId");
 
@@ -128,9 +134,13 @@ namespace test_project_Inforce_backend.Migrations
 
             modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
                 {
-                    b.HasOne("test_project_Inforce_backend.Models.User", null)
-                        .WithMany("Albums")
-                        .HasForeignKey("UserId");
+                    b.HasOne("test_project_Inforce_backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("test_project_Inforce_backend.Models.Photo", b =>
@@ -141,7 +151,7 @@ namespace test_project_Inforce_backend.Migrations
 
                     b.HasOne("test_project_Inforce_backend.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -151,11 +161,6 @@ namespace test_project_Inforce_backend.Migrations
             modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
                 {
                     b.Navigation("Photos");
-                });
-
-            modelBuilder.Entity("test_project_Inforce_backend.Models.User", b =>
-                {
-                    b.Navigation("Albums");
                 });
 #pragma warning restore 612, 618
         }

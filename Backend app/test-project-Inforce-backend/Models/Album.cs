@@ -8,10 +8,10 @@ public class Album
     [Key]
     public Guid AlbumId { get; set; }
 
-    [ForeignKey("User")]
-    public Guid AuthorId { get; set; }
-
+    [Required]
+    [ForeignKey("UserId")]
     public virtual User User { get; set; }
+
 
     public List<Photo> Photos { get; set; }
 

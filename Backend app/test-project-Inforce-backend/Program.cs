@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using test_project_Inforce_backend.Data;
 
@@ -21,9 +23,19 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddDbContext<TestProjectDbContext>(options =>
             options.UseSqlServer(builder.Configuration["DbConnectionString"]));
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
+            {
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey
+            });
+            options.OperationFilter<SecurityRequirementsOperationFilter>();
+        });
         //builder.Services.AddSwaggerGen(options =>
         //{
         //    options.SwaggerDoc("v1", new OpenApiInfo
@@ -58,9 +70,19 @@ public class Program
         {
             x.TokenValidationParameters = new TokenValidationParameters
             {
+                ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+                ValidAudience = builder.Configuration["JwtSettings:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                    builder.Configuration["JwtSettings:Key"])),
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
 
             };
         });
+
+        builder.Services.AddAuthorization();
 
         var app = builder.Build();
 
@@ -69,6 +91,11 @@ public class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+            });
         }
         else
         {
@@ -78,17 +105,13 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+
         app.UseRouting();
         app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-            options.RoutePrefix = string.Empty;
-        });
+
 
         app.UseAuthentication();
         app.UseAuthorization();
-
 
         app.MapControllers();
 

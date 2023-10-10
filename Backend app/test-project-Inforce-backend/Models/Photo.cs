@@ -5,12 +5,10 @@ namespace test_project_Inforce_backend.Models;
 public class Photo
 {
     [Key]
-    public Guid PhotoId { get; set; }
+    public Guid? PhotoId { get; set; }
 
     [Required]
-    [ForeignKey("User")]
-    public Guid AuthorId { get; set; }
-
+    [ForeignKey("UserId")]
     public virtual User User { get; set; }
 
     [MaxLength(100)]
@@ -23,8 +21,12 @@ public class Photo
     public byte[]? PrewievData { get; set; }
 
     [Required]
-    public uint Likes { get; set; }
+    public uint? LikesCount { get; set; }
 
     [Required]
-    public uint Dislikes { get; set; }
+    public uint? DislikesCount { get; set; }
+
+    public virtual EFGuidCollection? LikesList { get; set; }
+
+    public virtual EFGuidCollection? DisikesList { get; set; }
 }
