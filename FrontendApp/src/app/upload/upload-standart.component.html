@@ -1,0 +1,12 @@
+<form (ngSubmit)="onSubmit()" #uploadForm="ngForm">
+  <input
+    type="file"
+    name="image"
+    (change)="onFileSelected($event)"
+    #fileUpload
+    accept=".jpg, .png"
+  />
+  <br />
+  <br />
+  <button type="submit">Завантажити</button>
+</form>

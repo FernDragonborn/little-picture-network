@@ -4,8 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace test_project_Inforce_backend.Models;
 public class Photo
 {
+    public Photo() { }
+
+    public Photo(byte[] photoData)
+    {
+        PhotoData = photoData;
+        LikesCount = 0;
+        DislikesCount = 0;
+    }
     [Key]
-    public Guid? PhotoId { get; set; }
+    public Guid PhotoId { get; set; }
 
     [Required]
     [ForeignKey("UserId")]
@@ -14,10 +22,8 @@ public class Photo
     [MaxLength(100)]
     public string? Name { get; set; }
 
-    [NotMapped]
     public byte[]? PhotoData { get; set; }
 
-    [NotMapped]
     public byte[]? PrewievData { get; set; }
 
     [Required]
