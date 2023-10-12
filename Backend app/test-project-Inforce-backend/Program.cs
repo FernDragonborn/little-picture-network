@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using test_project_Inforce_backend.Data;
+using test_project_Inforce_backend.Interfaces;
 
 namespace test_project_Inforce_backend;
 public class Program
@@ -23,6 +24,9 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddDbContext<TestProjectDbContext>(options =>
             options.UseSqlServer(builder.Configuration["DbConnectionString"]));
+
+        builder.Services.AddScoped<IVirusScanner, WindowsEmbededVirusScanner>();
+        builder.Services.AddScoped<IPhotoConverter, SimplePhotoConverter>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

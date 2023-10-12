@@ -13,11 +13,13 @@ namespace test_project_Inforce_backend.Controllers
     {
         private readonly TestProjectDbContext _context;
         private readonly IVirusScanner _virusScanner;
-        public PhotoController(TestProjectDbContext context, IVirusScanner virusScanner)
+        private readonly IPhotoConverter _photoConverter;
+        public PhotoController(TestProjectDbContext context, IVirusScanner virusScanner, IPhotoConverter photoConverter)
         {
-            //DbContext is not thread-safe< so I;
+            //TODO DbContext is not thread-safe so I'm not sure to inject it like this, need to check
             _context = context;
             _virusScanner = virusScanner;
+            _photoConverter = photoConverter;
         }
 
 
@@ -116,7 +118,7 @@ namespace test_project_Inforce_backend.Controllers
             bool noViruses = _virusScanner.ScanPhotoForViruses(photo.PhotoData);
             if (!noViruses) { return BadRequest("image containing viruses"); }
 
-
+            photo.PhotoData = _photoConverter.ConvertToJpeg(photo.PhotoData);
 
             photo.User = _context.Users.FirstOrDefault(x => x.UserId.ToString() == photoRequest.UserId);
             if (photo.User is null)
