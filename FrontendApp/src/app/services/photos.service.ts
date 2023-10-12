@@ -33,9 +33,6 @@ export class PhotoService {
   }
 
   getPhotoById(id: string): Observable<PhotoDto>{
-    console.log(id);
-    const photoResponse = this.http.get<PhotoDto>(this.baseApiUrl + '/api/photos/' + id);
-    console.log(photoResponse);
-    return photoResponse;
+    return this.http.get<PhotoDto>(this.baseApiUrl + '/api/photos/' + id);
   }
 }

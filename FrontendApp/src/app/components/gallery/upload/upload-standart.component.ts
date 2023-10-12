@@ -1,6 +1,6 @@
-import { PhotoDto } from '../models/photo.model';
+import { PhotoDto } from '../../../models/photo.model';
 import { Component } from '@angular/core';
-import { PhotoService } from '../services/photos.service';
+import { PhotoService } from '../../../services/photos.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -38,14 +38,9 @@ export class UploadComponent {
     const reader = new FileReader();
 
     reader.onload = (e: any) => {
-      // e.target.result contains the base64-encoded string of the file
       const base64String: string = e.target.result;
-
-      // To convert the base64 string to a byte array, you can use a utility function
       const byteArray = this.base64ToByteArray(base64String);
-
       this.photoRequest.photoData = byteArray.toString();
-      // Now, you have the byte array ready for further processing
       console.log('Byte Array:', byteArray);
     };
 
@@ -63,7 +58,6 @@ export class UploadComponent {
 
   onSubmit(): void {
     if (this.selectedFile) {
-      // Handle the file upload, e.g., send it to the server
       const upload$ = this.photoService.addPhoto(this.photoRequest); 
       upload$.subscribe(x => console.log(x));
     }

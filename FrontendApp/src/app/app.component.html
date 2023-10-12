@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" routerLink="books">Test book project</a>
+    <a class="navbar-brand" routerLink="books">Test project Inforce</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -16,18 +16,23 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="books">
-            Books
+        <li class="nav-item d-flex justify-content-evenly">
+          <a class="nav-link active" aria-current="page" routerLink="">
+            Home
+          </a>
+          <a class="nav-link active" aria-current="page" routerLink="login">
+            Log in
+          </a>
+          <a class="nav-link active" aria-current="page" routerLink="myAlbums">
+            My Albums
+          </a>
+          <a class="nav-link active" aria-current="page" routerLink="upload">
+            Upload photo
           </a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-
-<upload-component></upload-component>
-
-<app-carousel></app-carousel>
 
 <router-outlet class="grid"></router-outlet>

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using test_project_Inforce_backend.Data;
+using test_project_Inforce_backend.Interfaces;
 using test_project_Inforce_backend.Models;
 
 namespace test_project_Inforce_backend.Controllers
@@ -11,27 +12,14 @@ namespace test_project_Inforce_backend.Controllers
     public class PhotoController : Controller
     {
         private readonly TestProjectDbContext _context;
-
-        public PhotoController(TestProjectDbContext context)
+        private readonly IVirusScanner _virusScanner;
+        public PhotoController(TestProjectDbContext context, IVirusScanner virusScanner)
         {
             //DbContext is not thread-safe< so I;
             _context = context;
+            _virusScanner = virusScanner;
         }
 
-        /// <summary>
-        /// Gets photos in db
-        /// </summary>
-        /// <returns>HTTP responce.</returns>
-        /// <response code="200">Succesfully founded</response>
-        /// <response code="404">Database is empty</response>
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[HttpGet]
-        //public async Task<IActionResult> GetSeveralAlbums()
-        //{
-        //    var books = await _context.Photos.ToListAsync();
-        //    if (books.Count == 0) { return NotFound(); }
-        //    return Ok(books);
-        //}
 
         /// <summary>
         /// Gets stringArr book by it's id
@@ -125,7 +113,10 @@ namespace test_project_Inforce_backend.Controllers
             //I know that this isn't right, but Convert.FromBase64String haven't warked. I'm in search how to fix this
             photo.PhotoData = stringArr.Select(str => Convert.ToByte(str)).ToArray();
 
-            Class.wr(photo.PhotoData);
+            bool noViruses = _virusScanner.ScanPhotoForViruses(photo.PhotoData);
+            if (!noViruses) { return BadRequest("image containing viruses"); }
+
+
 
             photo.User = _context.Users.FirstOrDefault(x => x.UserId.ToString() == photoRequest.UserId);
             if (photo.User is null)

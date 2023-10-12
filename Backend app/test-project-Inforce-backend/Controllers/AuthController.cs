@@ -44,12 +44,6 @@ namespace test_project_Inforce_backend.Controllers
             return Created("api/auth", user);
         }
 
-        [Authorize]
-        [HttpPost]
-        public IActionResult authTest()
-        {
-            return Ok();
-        }
 
         [HttpPost("login")]
         public async Task<IActionResult> login(UserDto userDto)
@@ -64,6 +58,13 @@ namespace test_project_Inforce_backend.Controllers
 
             string token = CreateToken(user);
             return Ok(token);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult authTest()
+        {
+            return Ok();
         }
 
         private string? CreateToken(User user)
@@ -83,9 +84,9 @@ namespace test_project_Inforce_backend.Controllers
             var jwtObj = new JwtSecurityToken(
                 issuer: "https://localhost:7245",
                 audience: "https://localhost:7245",
-                notBefore: DateTime.UtcNow.AddMinutes(-2),
+                notBefore: DateTime.UtcNow.AddMinutes(-1),
                 claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(5)),
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(20)),
                 signingCredentials: credentials);
             var jwt = new JwtSecurityTokenHandler().WriteToken(jwtObj);
 
