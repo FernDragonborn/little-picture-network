@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 using System.Text;
 using test_project_Inforce_backend.Data;
 using test_project_Inforce_backend.Interfaces;
@@ -39,31 +40,29 @@ public class Program
                 Type = SecuritySchemeType.ApiKey
             });
             options.OperationFilter<SecurityRequirementsOperationFilter>();
-        });
-        //builder.Services.AddSwaggerGen(options =>
-        //{
-        //    options.SwaggerDoc("v1", new OpenApiInfo
-        //    {
-        //        Version = "v1",
-        //        Title = "ToDo API",
-        //        Description = "An ASP.NET Core Web API for managing ToDo items",
-        //        TermsOfService = new Uri("https://example.com/terms"),
-        //        Contact = new OpenApiContact
-        //        {
-        //            Name = "Example Contact",
-        //            Url = new Uri("https://example.com/contact")
-        //        },
-        //        License = new OpenApiLicense
-        //        {
-        //            Name = "Example License",
-        //            Url = new Uri("https://example.com/license")
-        //        }
-        //    });
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "ToDo API",
+                Description = "An ASP.NET Core Web API for managing ToDo items",
+                TermsOfService = new Uri("https://example.com/terms"),
+                Contact = new OpenApiContact
+                {
+                    Name = "Example Contact",
+                    Url = new Uri("https://example.com/contact")
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "Example License",
+                    Url = new Uri("https://example.com/license")
+                }
+            });
 
-        //    //using System.Reflection;
-        //    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-        //    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-        //});
+            //using System.Reflection;
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
 
         builder.Services.AddAuthentication(x =>
         {

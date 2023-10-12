@@ -1,10 +1,16 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
-  <label for="first-name">First Name: </label>
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmit(loginForm)"
+  class="p-3 d-flex flex-column"
+  style="width: 50%"
+>
+  <label for="first-name">Login: </label>
   <input id="first-name" type="text" formControlName="login" />
 
-  <label for="last-name">Last Name: </label>
+  <label for="last-name">Password: </label>
   <input id="last-name" type="text" formControlName="password" />
-
+  <br />
   <button type="submit">Log in</button>
+  <br />
   <button type="submit">Register</button>
 </form>

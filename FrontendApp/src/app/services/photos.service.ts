@@ -23,16 +23,16 @@ export class PhotoService {
   }
 
   getAllPhotos(): Observable<PhotoDto[]>{
-    let a = this.http.get<PhotoDto[]>(this.baseApiUrl + '/api/photo/getAny')
+    let a = this.http.get<PhotoDto[]>(this.baseApiUrl + '/api/photo/getAllPhotos')
     return a;
   }
 
   editPhoto(PhotoRequest: PhotoDto) : Observable<PhotoDto>{
-    return this.http.put<PhotoDto>(this.baseApiUrl + '/api/books/edit',
+    return this.http.put<PhotoDto>(this.baseApiUrl + '/api/photo/edit',
       PhotoRequest);
   }
 
   getPhotoById(id: string): Observable<PhotoDto>{
-    return this.http.get<PhotoDto>(this.baseApiUrl + '/api/photos/' + id);
+    return this.http.get<PhotoDto>(this.baseApiUrl + '/api/photo/' + id);
   }
 }

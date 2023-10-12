@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using test_project_Inforce_backend.Data;
 using test_project_Inforce_backend.Models;
 
@@ -22,6 +18,16 @@ namespace test_project_Inforce_backend.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Register new user
+        /// </summary>
+        /// <param></param>
+        /// <param name="userDto">user data transfer object. Neded fields for this method: login, password</param>
+        /// <returns>HTTP responce.</returns>
+        /// <response code="201">Succesfully regitered</response>
+        /// <response code="400">User with this login already exists or Database exception</response>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserDto userDto)
         {
@@ -38,15 +44,28 @@ namespace test_project_Inforce_backend.Controllers
             user.Login = userDto.Login;
             user.Role = userDto.Role;
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { return BadRequest(ex); }
 
             return Created("api/auth", user);
         }
 
-
+        /// <summary>
+        /// Log in and get JWT token
+        /// </summary>
+        /// <param></param>
+        /// <param name="userDto">user data transfer object. Neded fields for this method: login, password</param>
+        /// <returns>HTTP responce and JWT token in it.</returns>
+        /// <response code="200">Succesfully logged in</response>
+        /// <response code="400">Wrong login or password</response>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("login")]
-        public async Task<IActionResult> login(UserDto userDto)
+        public async Task<IActionResult> LogIn(UserDto userDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == userDto.Login);
             if (user is null) { return BadRequest("Wrong login or password"); }
@@ -56,41 +75,23 @@ namespace test_project_Inforce_backend.Controllers
                 return BadRequest("Wrong login or password");
             }
 
-            string token = CreateToken(user);
+            string token = JwtHandler.CreateToken(user);
             return Ok(token);
         }
 
+        /// <summary>
+        /// Method for testing if authoraization works
+        /// </summary>
+        /// <param></param>
+        /// <param name="userDto">user data transfer object. Neded fields for this method: login, password</param>
+        /// <returns>HTTP responce.</returns>
+        /// <response code="200">Succesfully authorized</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize]
         [HttpPost]
         public IActionResult authTest()
         {
             return Ok();
-        }
-
-        private string? CreateToken(User user)
-        {
-            List<Claim> claims = new()
-            {
-                new Claim("id", user.UserId.ToString()),
-                new Claim("login", user.Login),
-                new Claim("role", user.Role)
-            };
-
-            //TODO this needed to be provided by some key vault, but I didn't use these services, so it need enhentment. I also didn't use standalrt local vault, because it only can be acessed through builder for app
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("fNBXCRyN0a1CbXK6IVQwjnwUq6P3dF0DK2hbmvm"));
-
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var jwtObj = new JwtSecurityToken(
-                issuer: "https://localhost:7245",
-                audience: "https://localhost:7245",
-                notBefore: DateTime.UtcNow.AddMinutes(-1),
-                claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(20)),
-                signingCredentials: credentials);
-            var jwt = new JwtSecurityTokenHandler().WriteToken(jwtObj);
-
-            return jwt;
         }
     }
 }

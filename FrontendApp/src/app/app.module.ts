@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { PhotoService } from './services/photos.service';
 import { AppComponent } from './app.component';
-import { UploadComponent } from './components/gallery/upload/upload-standart.component';
+import { UploadComponent } from './components/upload/upload-standart.component';
 import { LoginComponent } from './components/login/login.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { AuthService } from './services/auth.service';

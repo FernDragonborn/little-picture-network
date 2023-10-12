@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using test_project_Inforce_backend.Data;
 using test_project_Inforce_backend.Interfaces;
 using test_project_Inforce_backend.Models;
@@ -8,15 +8,16 @@ using test_project_Inforce_backend.Models;
 namespace test_project_Inforce_backend.Controllers
 {
     [ApiController]
-    [Route("api/photo")]
+    [Route("api/photoResponse")]
     public class PhotoController : Controller
     {
         private readonly TestProjectDbContext _context;
         private readonly IVirusScanner _virusScanner;
         private readonly IPhotoConverter _photoConverter;
+
         public PhotoController(TestProjectDbContext context, IVirusScanner virusScanner, IPhotoConverter photoConverter)
         {
-            //TODO DbContext is not thread-safe so I'm not sure to inject it like this, need to check
+            // TODO DbContext is not thread-safe so I'm not sure to inject it like this, need to check
             _context = context;
             _virusScanner = virusScanner;
             _photoConverter = photoConverter;
@@ -24,12 +25,12 @@ namespace test_project_Inforce_backend.Controllers
 
 
         /// <summary>
-        /// Gets stringArr book by it's id
+        /// Gets photoRequest data transfer object by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns>HTTP responce.</returns>
         /// <response code="200">Succesfully founded</response>
-        /// <response code="404">Book doesn't exist</response>
+        /// <response code="404">Photo doesn't exist</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:guid}")]
@@ -37,25 +38,29 @@ namespace test_project_Inforce_backend.Controllers
             [FromRoute] Guid id)
         {
             var photoResponse = await _context.Photos.FirstOrDefaultAsync(x => x.PhotoId == id);
-            if (photoResponse is null) { return NotFound(); }
+            if (photoResponse is null)
+            {
+                return NotFound();
+            }
+
             return Ok(photoResponse);
         }
 
         /// <summary>
-        /// Gets stringArr book by it's id
+        /// Gets all photos in photoRequest data transfer objects
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>HTTP responce.</returns>
         /// <response code="200">Succesfully founded</response>
-        /// <response code="404">Book doesn't exist</response>
+        /// <response code="400">Exception initializtion of object occured</response>
+        /// <response code="404">Photo doesn't exist</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("getAny")]
-        public async Task<IActionResult> GetAllPhotos()
+        [HttpGet("getAllPhotos")]
+        public IActionResult GetAllPhotos()
         {
             var photos = _context.Photos.ToList();
-            if (photos is null || photos.Count == 0) { return NotFound(); }
-
+            if (photos.IsNullOrEmpty()) { return NotFound(); }
 
             List<PhotoDto> photoResponse = new();
             try
@@ -69,123 +74,106 @@ namespace test_project_Inforce_backend.Controllers
                         DislikesCount = x.DislikesCount
                     }
                 ));
-                string s = Encoding.ASCII.GetString(photos[0].PhotoData);
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) { return BadRequest(ex); }
 
             return Ok(photos);
         }
 
+
         /// <summary>
-        /// Gets array of books which names contains stringArr request string
+        /// Add new photoRequest.
         /// </summary>
-        /// <param name="title">fd</param>
+        /// <param name="photoRequest">photoRequest data transfer object. Needed fields for this method: photoData, userId</param >
         /// <returns>HTTP responce.</returns>
-        /// <response code="200">Succesfully founded.</response>
-        /// <response code="404">Book doesn't exist.</response>
-        //[HttpGet("{title}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public IActionResult GetBooksByName(
-        //    [FromRoute(Name = "title")] string title)
-        //{
-        //    var photos = _context.Photos.Where(x => x.Title.Contains(title));
-        //    if (photos.Count() is 0) { return NotFound("No book with such name"); }
-        //    return Ok(photos);
-        //}
-
-        /// <summary>
-        /// Add new book
-        /// </summary>
-        /// <param name="photoRequest"></param>
-        /// <returns></returns>
-        /// <response code="201">Succesfully added photo</response>
-        /// <response code="404">Book doesn't exist</response>
-
+        /// <response code="201">Succesfully added photoRequest.</response>
+        /// <response code = "400">Image contained viruses, user isn't existing or database exception.</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("add")]
         public async Task<IActionResult> AddPhoto(
             [FromBody] PhotoDto photoRequest)
         {
-            var stringArr = photoRequest.PhotoData.Split(',');
-            Photo photo = new();
-            photo.LikesCount = 0;
-            photo.DislikesCount = 0;
+            Photo photo = new(0, 0);
+
+            if (photoRequest.PhotoData.IsNullOrEmpty()) { return BadRequest("PhotoData was empty."); }
+
             //I know that this isn't right, but Convert.FromBase64String haven't warked. I'm in search how to fix this
-            photo.PhotoData = stringArr.Select(str => Convert.ToByte(str)).ToArray();
+            var stringArr = photoRequest.PhotoData.Split(',');
+            photo.PhotoData = stringArr.Select(str => Convert.ToByte(str))
+                .ToArray();
 
             bool noViruses = _virusScanner.ScanPhotoForViruses(photo.PhotoData);
-            if (!noViruses) { return BadRequest("image containing viruses"); }
+            if (!noViruses) { return BadRequest("Image contains viruses."); }
 
             photo.PhotoData = _photoConverter.ConvertToJpeg(photo.PhotoData);
 
             photo.User = _context.Users.FirstOrDefault(x => x.UserId.ToString() == photoRequest.UserId);
-            if (photo.User is null)
-            {
-                /*return BadRequest("User was null"); */
-                photo.User = _context.Users.FirstOrDefault(x => x.Login == "Fern");
-            }
+            if (photo.User is null) { return BadRequest("User was null"); }
 
             try
             {
                 await _context.Photos.AddAsync(photo);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            catch (Exception ex) { return BadRequest(ex); }
 
-            return Created("api/photo", photo);
+            return Created("api/photoResponse", photo);
         }
 
+        /// <summary>
+        /// Edit an existing photo.
+        /// </summary>
+        /// <param name = "photoDto" ></param >
+        /// <returns>HTTP responce.</returns >
+        /// <response code="200">Succesfully edited photo.</response>
+        /// <response code="400">Database exception.</response>
+        /// <response code="404">Photo does not exist.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("edit")]
+        public async Task<IActionResult> EditPhoto(
+            [FromBody] PhotoDto photoDto)
+        {
+            Photo photoRequest = new Photo(photoDto);
+            var guid = Guid.Parse(photoDto.PhotoId);
+            var photoResponse = _context.Photos.FirstOrDefault(x => x.PhotoId == guid);
+            if (photoResponse is null) { return NotFound("Photo with this Id doesn't exist"); }
+
+            try
+            {
+                _context.Photos.Entry(photoRequest).CurrentValues.SetValues(photoDto);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+
+            return Ok(photoResponse);
+        }
+
+        /// <summary>
+        /// Deletes photo by Id
+        /// </summary>
+        /// <param name="photoRequest">The entity to remove.</param>
+        /// <returns>HTTP responce.</returns>
+        /// <response code="200">Succesfully deleted stringArr book.</response>
+        /// <response code="400">Tere could be mistakes in request, no such book.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeletePhotoById(
+            [FromBody] PhotoDto photoDto)
+        {
+            Photo photoRequest = new Photo(photoDto);
+            try
+            {
+                _context.Photos.Remove(photoRequest);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+
+            return Ok();
+        }
     }
-
-
-    /// <summary>
-    /// Edit an existing book
-    /// </summary>
-    /// <param name="photoRequest"></param>
-    /// <returns></returns>
-    /// <response code="200">Succesfully edited boook.</response>
-    /// <response code="404">If book doesn't exist.</response>
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[HttpPut("edit")]
-    //public async Task<IActionResult> EditBook(
-    //    [FromBody] Photo photoRequest)
-    //{
-    //    var photos = _context.Photos.FirstOrDefault(x => x.PhotoId == photoRequest.PhotoId);
-    //    if (photos is null) { return NotFound("Book with this Id doesn't exist"); }
-    //    _context.Entry(photos).CurrentValues.SetValues(photoRequest);
-    //    await _context.SaveChangesAsync();
-    //    return Ok(photos);
-    //}
-
-    /// <summary>
-    /// Deletes stringArr specific book
-    /// </summary>
-    /// <param name="photoRequest">The entity to remove.</param>
-    /// <returns>HTTP responce.</returns>
-    /// <response code="200">Succesfully deleted stringArr book.</response>
-    /// <response code="400">Tere could be mistakes in request, no such book.</response>
-    //[HttpDelete("delete")]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-    //public async Task<IActionResult> DeleteBookById(
-    //    [FromBody] Photo photoRequest)
-    //{
-    //    try
-    //    {
-    //        var deletedBook = _context.Photos.Remove(photoRequest).Entity;
-    //        await _context.SaveChangesAsync();
-    //        return Ok(deletedBook);
-    //    }
-    //    catch (DbUpdateConcurrencyException)
-    //    {
-    //        return BadRequest("There could be mistakes in request, no such book");
-    //    }
-    //}
 }
 

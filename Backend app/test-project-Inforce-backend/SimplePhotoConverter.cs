@@ -27,9 +27,6 @@ namespace test_project_Inforce_backend
             ms.Dispose();
             fs.Dispose();
 
-            File.WriteAllBytes(path, resposePhotoData);
-
-
             return resposePhotoData;
         }
     }

@@ -1,10 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace test_project_Inforce_backend.Models;
 public class Photo
 {
     public Photo() { }
+
+    public Photo(PhotoDto photoDto)
+    {
+        PhotoId = Guid.Parse(photoDto.PhotoId);
+        ImageConverter converter = new ImageConverter();
+        PhotoData = (byte[])converter.ConvertTo(photoDto.PhotoData, typeof(byte[]));
+        PrewievData = (byte[])converter.ConvertTo(photoDto.PrewievData, typeof(byte[]));
+        LikesCount = photoDto.LikesCount;
+        DislikesCount = photoDto.DislikesCount;
+    }
+
+    public Photo(uint likesCount, uint disLikesCount)
+    {
+        LikesCount = likesCount;
+        DislikesCount = disLikesCount;
+    }
 
     public Photo(byte[] photoData)
     {

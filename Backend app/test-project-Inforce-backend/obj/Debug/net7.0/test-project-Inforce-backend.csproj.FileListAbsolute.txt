@@ -9,7 +9,6 @@ D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\D
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Azure.Identity.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\DotNetEnv.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Humanizer.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\log4net.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
@@ -31,7 +30,6 @@ D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\D
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Mono.TextTemplating.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Newtonsoft.Json.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Sprache.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -51,9 +49,6 @@ D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\D
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
@@ -84,8 +79,7 @@ D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\D
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\AntiVirusScanner.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\SkiaSharp.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\osx\native\libSkiaSharp.dylib
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win-arm64\native\libSkiaSharp.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win-x64\native\libSkiaSharp.dll
-D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win-x86\native\libSkiaSharp.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\test-project-Inforce-backend.xml
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net7.0\test-project-Inforce-backend.xml
