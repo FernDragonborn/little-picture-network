@@ -1,7 +1,8 @@
-export interface UserDto{
-    UserId: string;
-    Role: string;
-    Name: string;
-    Login: string;
-    Password: string;
+export class UserDto{
+    userId: string = '';
+    role: string = '';
+    name: string = '';
+    login: string = '';
+    password: string = '';
+    jwtToken: string = '';
 }   

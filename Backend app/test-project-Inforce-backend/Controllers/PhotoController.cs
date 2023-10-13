@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using test_project_Inforce_backend.Data;
+using test_project_Inforce_backend.Identity;
 using test_project_Inforce_backend.Interfaces;
 using test_project_Inforce_backend.Models;
 
 namespace test_project_Inforce_backend.Controllers
 {
     [ApiController]
-    [Route("api/photoResponse")]
+    [Route("api/photo")]
     public class PhotoController : Controller
     {
         private readonly TestProjectDbContext _context;
@@ -46,6 +48,8 @@ namespace test_project_Inforce_backend.Controllers
             return Ok(photoResponse);
         }
 
+
+        //TODO delete ot else
         /// <summary>
         /// Gets all photos in photoRequest data transfer objects
         /// </summary>
@@ -90,6 +94,7 @@ namespace test_project_Inforce_backend.Controllers
         /// <response code = "400">Image contained viruses, user isn't existing or database exception.</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize]
         [HttpPost("add")]
         public async Task<IActionResult> AddPhoto(
             [FromBody] PhotoDto photoRequest)
@@ -132,6 +137,7 @@ namespace test_project_Inforce_backend.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         [HttpPut("edit")]
         public async Task<IActionResult> EditPhoto(
             [FromBody] PhotoDto photoDto)
@@ -154,12 +160,37 @@ namespace test_project_Inforce_backend.Controllers
         /// <summary>
         /// Deletes photo by Id
         /// </summary>
-        /// <param name="photoRequest">The entity to remove.</param>
+        /// <param name="photoDto">The entity to remove.</param>
         /// <returns>HTTP responce.</returns>
-        /// <response code="200">Succesfully deleted stringArr book.</response>
-        /// <response code="400">Tere could be mistakes in request, no such book.</response>
+        /// <response code="200">Succesfully deleted photo.</response>
+        /// <response code="400">There could be mistakes in request or no such photo exists.</response>>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Policy = IdentityData.AdminUserPolicyName)]
+        [HttpDelete("deleteAny")]
+        public async Task<IActionResult> DeleteAnyPhotoById(
+            [FromBody] PhotoDto photoDto)
+        {
+            Photo photoRequest = new Photo(photoDto);
+            try
+            {
+                _context.Photos.Remove(photoRequest);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Deletes photo by Id
+        /// </summary>
+        /// <param name="photoDto">The entity to remove.</param>
+        /// <returns>HTTP responce.</returns>
+        /// <response code="200">Succesfully deleted photo.</response>
+        /// <response code="400">There could be mistakes in request or no such photo exists.</response>
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize]
         [HttpDelete("delete")]
         public async Task<IActionResult> DeletePhotoById(
             [FromBody] PhotoDto photoDto)

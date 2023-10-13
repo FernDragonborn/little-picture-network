@@ -13,6 +13,24 @@
             <response code="200">Succesfully founded.</response>
             <response code="404">Photo doesn't exist.</response>
         </member>
+        <member name="M:test_project_Inforce_backend.Controllers.AlbumController.DeleteAnyalbum(test_project_Inforce_backend.Models.PhotoDto)">
+            <summary>
+            Deletes photo by Id
+            </summary>
+            <param name="photoDto">The entity to remove.</param>
+            <returns>HTTP responce.</returns>
+            <response code="200">Succesfully deleted photo.</response>
+            <response code="400">There could be mistakes in request or no such photo exists.</response>>
+        </member>
+        <member name="M:test_project_Inforce_backend.Controllers.AlbumController.DeleteAlbum(test_project_Inforce_backend.Models.PhotoDto)">
+            <summary>
+            Deletes photo by Id
+            </summary>
+            <param name="photoDto">The entity to remove.</param>
+            <returns>HTTP responce.</returns>
+            <response code="200">Succesfully deleted photo.</response>
+            <response code="400">There could be mistakes in request or no such photo exists.</response>
+        </member>
         <member name="M:test_project_Inforce_backend.Controllers.AuthController.Register(test_project_Inforce_backend.Models.UserDto)">
             <summary>
             Register new user
@@ -33,7 +51,7 @@
             <response code="200">Succesfully logged in</response>
             <response code="400">Wrong login or password</response>
         </member>
-        <member name="M:test_project_Inforce_backend.Controllers.AuthController.authTest">
+        <member name="M:test_project_Inforce_backend.Controllers.AuthController.RenewToken(test_project_Inforce_backend.Models.UserDto)">
             <summary>
             Method for testing if authoraization works
             </summary>
@@ -79,14 +97,23 @@
             <response code="400">Database exception.</response>
             <response code="404">Photo does not exist.</response>
         </member>
+        <member name="M:test_project_Inforce_backend.Controllers.PhotoController.DeleteAnyPhotoById(test_project_Inforce_backend.Models.PhotoDto)">
+            <summary>
+            Deletes photo by Id
+            </summary>
+            <param name="photoDto">The entity to remove.</param>
+            <returns>HTTP responce.</returns>
+            <response code="200">Succesfully deleted photo.</response>
+            <response code="400">There could be mistakes in request or no such photo exists.</response>>
+        </member>
         <member name="M:test_project_Inforce_backend.Controllers.PhotoController.DeletePhotoById(test_project_Inforce_backend.Models.PhotoDto)">
             <summary>
             Deletes photo by Id
             </summary>
-            <param name="photoRequest">The entity to remove.</param>
+            <param name="photoDto">The entity to remove.</param>
             <returns>HTTP responce.</returns>
-            <response code="200">Succesfully deleted stringArr book.</response>
-            <response code="400">Tere could be mistakes in request, no such book.</response>
+            <response code="200">Succesfully deleted photo.</response>
+            <response code="400">There could be mistakes in request or no such photo exists.</response>
         </member>
         <member name="T:test_project_Inforce_backend.Migrations.InitialCreate">
             <inheritdoc />
@@ -170,6 +197,30 @@
             <inheritdoc />
         </member>
         <member name="M:test_project_Inforce_backend.Migrations.RemovedNotMappedFromPhotoAndPreviewData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:test_project_Inforce_backend.Migrations.a">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.a.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.a.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.a.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:test_project_Inforce_backend.Migrations.allowNullInTitleInAlbum">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.allowNullInTitleInAlbum.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.allowNullInTitleInAlbum.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.allowNullInTitleInAlbum.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:EFGuidCollection">

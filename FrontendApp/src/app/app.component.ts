@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserDto } from './models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'FrontendApp';
+  title = 'Test Project Inforce';
 }

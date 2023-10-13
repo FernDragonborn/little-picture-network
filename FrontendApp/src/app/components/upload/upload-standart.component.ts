@@ -16,14 +16,7 @@ export class UploadComponent {
 
   constructor(private photoService: PhotoService) {}
 
-  photoRequest: PhotoDto = {
-    photoId: '',
-    userId: '',
-    photoData: '',
-    prewievData: '',
-    likesCount: 0,
-    dislikesCount: 0
-  };
+  photoRequest: PhotoDto = new PhotoDto();
 
   selectedFile: File | null = null;
    

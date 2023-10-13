@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { UploadComponent } from './components/upload/upload-standart.component';
 import { LoginComponent } from './components/login/login.component';
+import { AlbumManageComponent } from './components/album-manage/album-manage.component';
 
 const routes: Routes = [
   {
@@ -11,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'upload',
-    component: UploadComponent
+    component: AlbumManageComponent
   },
   {
     path: 'login',

@@ -42,7 +42,7 @@ namespace test_project_Inforce_backend.Migrations
                     b.ToTable("EFGuidCollection");
                 });
 
-            modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
+            modelBuilder.Entity("test_project_Inforce_backend.Models.AlbumDto", b =>
                 {
                     b.Property<Guid>("AlbumId")
                         .ValueGeneratedOnAdd()
@@ -137,7 +137,7 @@ namespace test_project_Inforce_backend.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
+            modelBuilder.Entity("test_project_Inforce_backend.Models.AlbumDto", b =>
                 {
                     b.HasOne("test_project_Inforce_backend.Models.User", "User")
                         .WithMany()
@@ -150,7 +150,7 @@ namespace test_project_Inforce_backend.Migrations
 
             modelBuilder.Entity("test_project_Inforce_backend.Models.Photo", b =>
                 {
-                    b.HasOne("test_project_Inforce_backend.Models.Album", null)
+                    b.HasOne("test_project_Inforce_backend.Models.AlbumDto", null)
                         .WithMany("Photos")
                         .HasForeignKey("AlbumId");
 
@@ -175,7 +175,7 @@ namespace test_project_Inforce_backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
+            modelBuilder.Entity("test_project_Inforce_backend.Models.AlbumDto", b =>
                 {
                     b.Navigation("Photos");
                 });

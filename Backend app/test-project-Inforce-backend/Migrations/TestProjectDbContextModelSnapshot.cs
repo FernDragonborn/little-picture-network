@@ -46,7 +46,6 @@ namespace test_project_Inforce_backend.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
@@ -112,7 +111,7 @@ namespace test_project_Inforce_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("LogIn")
+                    b.Property<string>("Login")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");

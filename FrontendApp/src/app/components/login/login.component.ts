@@ -1,4 +1,3 @@
-import { first } from 'rxjs/operators';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -9,28 +8,41 @@ import { UserDto } from 'src/app/models/user.model';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent {
   constructor(private authService: AuthService) {}
 
-  user: UserDto = {
-    UserId: '',
-    Login: '',
-    Password: '',
-    Role: '',
-    Name: ''
-  }
+  user: UserDto = new UserDto();
 
   loginForm = new FormGroup({
     login: new FormControl(''),
     password: new FormControl(''),
   });
 
-  onSubmit(loginForm: FormGroup) {
-    console.log(loginForm.value);
-    let a = loginForm.value;
-    this.user.Login = a.login;
-    this.user.Password = a.password;
+  login(user: UserDto): void {
     this.authService.login(this.user)
-      .subscribe(x => console.log(x)); 
+      .subscribe((userDto) => {
+        this.user = userDto;
+        localStorage.setItem('jwtToken', this.user.jwtToken);
+        localStorage.setItem('userId', this.user.userId)
+      })
+  }
+
+  renewToken(user: UserDto): void {
+    this.authService.renewToken(this.user)
+      .subscribe((userDto) => {
+        this.user = userDto;
+        localStorage.setItem('jwtToken', this.user.jwtToken);
+        localStorage.setItem('userId', this.user.userId)
+    })
+  }
+
+  register(user: UserDto): void {
+    this.authService.register(this.user)
+      .subscribe((userDto) => {
+        this.user = userDto;
+        localStorage.setItem('jwtToken', this.user.jwtToken);
+        localStorage.setItem('userId', this.user.userId)
+      })
   }
 }

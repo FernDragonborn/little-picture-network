@@ -5,6 +5,14 @@ namespace test_project_Inforce_backend.Models;
 
 public class Album
 {
+    public Album() { }
+
+    public Album(AlbumDto albumDto)
+    {
+        AlbumId = Guid.Parse(albumDto.AlbumId);
+        Title = albumDto.Title;
+    }
+
     [Key]
     public Guid AlbumId { get; set; }
 
@@ -12,8 +20,7 @@ public class Album
     [ForeignKey("UserId")]
     public virtual User User { get; set; }
 
-
     public List<Photo> Photos { get; set; }
 
-    public string Title { get; set; }
+    public string? Title { get; set; }
 }

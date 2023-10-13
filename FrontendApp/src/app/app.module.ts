@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'ng2-file-upload';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +16,9 @@ import { UploadComponent } from './components/upload/upload-standart.component';
 import { LoginComponent } from './components/login/login.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './services/auth.interceptor';
+import { AlbumManageComponent } from './components/album-manage/album-manage.component';
+import { AlbumService } from './services/album.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,7 @@ import { AuthService } from './services/auth.service';
     UploadComponent,
     GalleryComponent,
     LoginComponent,
+    AlbumManageComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,12 @@ import { AuthService } from './services/auth.service';
     MatButtonModule,
     MatInputModule
   ],
-  providers: [PhotoService, AuthService],
+  providers: [PhotoService, AlbumService, AuthService,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,   
+  } ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

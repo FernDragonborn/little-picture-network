@@ -6,6 +6,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Text;
 using test_project_Inforce_backend.Data;
+using test_project_Inforce_backend.Identity;
 using test_project_Inforce_backend.Interfaces;
 
 namespace test_project_Inforce_backend;
@@ -60,7 +61,6 @@ public class Program
 
             //using System.Reflection;
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
 
@@ -85,7 +85,11 @@ public class Program
             };
         });
 
-        builder.Services.AddAuthorization();
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy(IdentityData.AdminUserPolicyName, p =>
+                p.RequireClaim(IdentityData.AdminUserClaimName, "true"));
+        });
 
         var app = builder.Build();
 

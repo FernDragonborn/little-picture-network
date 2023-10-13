@@ -1,16 +1,13 @@
-<form
-  [formGroup]="loginForm"
-  (ngSubmit)="onSubmit(loginForm)"
-  class="p-3 d-flex flex-column"
-  style="width: 50%"
->
-  <label for="first-name">Login: </label>
-  <input id="first-name" type="text" formControlName="login" />
-
-  <label for="last-name">Password: </label>
-  <input id="last-name" type="text" formControlName="password" />
-  <br />
-  <button type="submit">Log in</button>
-  <br />
-  <button type="submit">Register</button>
-</form>
+<div class="p-3 d-flex flex-column">
+  <div class="p-1">
+    <input [(ngModel)]="user.login" placeholder="Login" />
+  </div>
+  <div class="p-1">
+    <input [(ngModel)]="user.password" placeholder="Password" type="password" />
+  </div>
+  <div class="p-1">
+    <button (click)="login(user)">Log in</button>
+    <button (click)="register(user)">Register</button>
+    <button (click)="renewToken(user)">Renew</button>
+  </div>
+</div>

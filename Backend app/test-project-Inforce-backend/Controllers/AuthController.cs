@@ -31,7 +31,6 @@ namespace test_project_Inforce_backend.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserDto userDto)
         {
-
             if (_context.Users.FirstOrDefault(x => x.Login == userDto.Login) != default)
             {
                 return BadRequest("User with this login already exists");
@@ -51,7 +50,10 @@ namespace test_project_Inforce_backend.Controllers
             }
             catch (Exception ex) { return BadRequest(ex); }
 
-            return Created("api/auth", user);
+            string token = JwtHandler.CreateToken(user);
+            userDto = new UserDto(user);
+            userDto.JwtToken = token;
+            return Created("api/auth", userDto);
         }
 
         /// <summary>
@@ -76,7 +78,9 @@ namespace test_project_Inforce_backend.Controllers
             }
 
             string token = JwtHandler.CreateToken(user);
-            return Ok(token);
+            userDto = new UserDto(user);
+            userDto.JwtToken = token;
+            return Ok(userDto);
         }
 
         /// <summary>
@@ -88,10 +92,15 @@ namespace test_project_Inforce_backend.Controllers
         /// <response code="200">Succesfully authorized</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize]
-        [HttpPost]
-        public IActionResult authTest()
+        [HttpPost("renewToken")]
+        public async Task<IActionResult> RenewToken(UserDto userDto)
         {
-            return Ok();
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == userDto.Login);
+            if (user is null) { return BadRequest("User not found"); }
+            string token = JwtHandler.CreateToken(user);
+            userDto = new UserDto(user);
+            userDto.JwtToken = token;
+            return Ok(userDto);
         }
     }
 }

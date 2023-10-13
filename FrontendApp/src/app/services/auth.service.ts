@@ -15,8 +15,12 @@ export class AuthService {
 
   baseApiUrl: string = enviroment.baseApiUrl;
 
-  login(user: UserDto): Observable<string>{
-    return this.http.post<string>(this.baseApiUrl + '/api/auth/login', user);
+  login(user: UserDto): Observable<UserDto>{
+    return this.http.post<UserDto>(this.baseApiUrl + '/api/auth/login', user);
+  }
+
+  renewToken(user: UserDto): Observable<UserDto>{
+    return this.http.post<UserDto>(this.baseApiUrl + '/api/auth/renewToken', user);
   }
 
   register(user: UserDto): Observable<UserDto>{

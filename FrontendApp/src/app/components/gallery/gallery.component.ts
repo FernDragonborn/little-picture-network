@@ -1,7 +1,7 @@
 import { PhotoService } from '../../services/photos.service';
 import { PhotoDto } from '../../models/photo.model';
 import { Component } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -20,6 +20,6 @@ export class GalleryComponent {
   
   getPhotos(): void {
     this.photoService.getAllPhotos() //TODO slice(0,5) needs optimizations. It won't work normally with large amounts of photos
-      .subscribe(photos => this.photos = photos.slice(0,5))
+      .subscribe(photos => this.photos = photos.slice(0,6))
   }
 }
