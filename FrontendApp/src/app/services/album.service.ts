@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { enviroment } from '../enviroments/enviroment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PhotoDto } from '../models/photo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,11 @@ export class AlbumService {
 
   createAlbum(albumDto: AlbumDto): Observable<AlbumDto>{
     return this.http.post<AlbumDto>(this.baseApiUrl + '/api/album/create', albumDto);
+  }
+
+  addPhotoToAlbum(PhotoRequest: PhotoDto): Observable<PhotoDto>{
+    PhotoRequest.photoId = '00000000-0000-0000-0000-000000000000';
+    return this.http.post<PhotoDto>(this.baseApiUrl + '/api/album/addPhotoToAlbum',
+    PhotoRequest);
   }
 }

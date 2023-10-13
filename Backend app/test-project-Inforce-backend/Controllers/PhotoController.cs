@@ -25,6 +25,25 @@ namespace test_project_Inforce_backend.Controllers
             _photoConverter = photoConverter;
         }
 
+        [HttpGet("getAlbumPhotos/{id:guid}")]
+        public async Task<IActionResult> GetAlbumPhotos(
+            [FromRoute] Guid id)
+        {
+            var album = _context.Albums.FirstOrDefault(x => x.AlbumId == id);
+            if (album is null) { return NotFound(); }
+            //TODO needs optimization
+            List<PhotoDto> photoResponse = new();
+
+            foreach (var photoDto in album.Photos)
+            {
+                //TODO add check for null (?)
+                Photo photo = _context.Photos.FirstOrDefault(x => x.PhotoId == photoDto.PhotoId);
+                photoResponse.Add(new PhotoDto(photo));
+            }
+
+            return Ok(photoResponse);
+        }
+
 
         /// <summary>
         /// Gets photoRequest data transfer object by id
@@ -39,6 +58,7 @@ namespace test_project_Inforce_backend.Controllers
         public async Task<IActionResult> GetPhotoById(
             [FromRoute] Guid id)
         {
+            //TODO remake for photoDto, not just Photo
             var photoResponse = await _context.Photos.FirstOrDefaultAsync(x => x.PhotoId == id);
             if (photoResponse is null)
             {
@@ -69,15 +89,7 @@ namespace test_project_Inforce_backend.Controllers
             List<PhotoDto> photoResponse = new();
             try
             {
-                photos.ForEach(x => photoResponse.Add(
-                    new PhotoDto()
-                    {
-                        PhotoId = x.PhotoId.ToString(),
-                        PhotoData = x.PhotoData.ToString(),
-                        LikesCount = x.LikesCount,
-                        DislikesCount = x.DislikesCount
-                    }
-                ));
+                photos.ForEach(x => photoResponse.Add(new PhotoDto(x)));
             }
             catch (Exception ex) { return BadRequest(ex); }
 
@@ -103,15 +115,12 @@ namespace test_project_Inforce_backend.Controllers
 
             if (photoRequest.PhotoData.IsNullOrEmpty()) { return BadRequest("PhotoData was empty."); }
 
-            //I know that this isn't right, but Convert.FromBase64String haven't warked. I'm in search how to fix this
-            var stringArr = photoRequest.PhotoData.Split(',');
-            photo.PhotoData = stringArr.Select(str => Convert.ToByte(str))
-                .ToArray();
+            photo.PhotoData = _photoConverter.ToByteArray(photoRequest.PhotoData);
 
             bool noViruses = _virusScanner.ScanPhotoForViruses(photo.PhotoData);
             if (!noViruses) { return BadRequest("Image contains viruses."); }
 
-            photo.PhotoData = _photoConverter.ConvertToJpeg(photo.PhotoData);
+            photo.PhotoData = _photoConverter.ToJpeg(photo.PhotoData);
 
             photo.User = _context.Users.FirstOrDefault(x => x.UserId.ToString() == photoRequest.UserId);
             if (photo.User is null) { return BadRequest("User was null"); }
@@ -123,15 +132,15 @@ namespace test_project_Inforce_backend.Controllers
             }
             catch (Exception ex) { return BadRequest(ex); }
 
-            return Created("api/photoResponse", photo);
+            return Created("api/photoDto", photo);
         }
 
         /// <summary>
-        /// Edit an existing photo.
+        /// Edit an existing photoDto.
         /// </summary>
         /// <param name = "photoDto" ></param >
         /// <returns>HTTP responce.</returns >
-        /// <response code="200">Succesfully edited photo.</response>
+        /// <response code="200">Succesfully edited photoDto.</response>
         /// <response code="400">Database exception.</response>
         /// <response code="404">Photo does not exist.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -158,12 +167,12 @@ namespace test_project_Inforce_backend.Controllers
         }
 
         /// <summary>
-        /// Deletes photo by Id
+        /// Deletes photoDto by Id
         /// </summary>
         /// <param name="photoDto">The entity to remove.</param>
         /// <returns>HTTP responce.</returns>
-        /// <response code="200">Succesfully deleted photo.</response>
-        /// <response code="400">There could be mistakes in request or no such photo exists.</response>>
+        /// <response code="200">Succesfully deleted photoDto.</response>
+        /// <response code="400">There could be mistakes in request or no such photoDto exists.</response>>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Policy = IdentityData.AdminUserPolicyName)]
@@ -183,12 +192,12 @@ namespace test_project_Inforce_backend.Controllers
         }
 
         /// <summary>
-        /// Deletes photo by Id
+        /// Deletes photoDto by Id
         /// </summary>
         /// <param name="photoDto">The entity to remove.</param>
         /// <returns>HTTP responce.</returns>
-        /// <response code="200">Succesfully deleted photo.</response>
-        /// <response code="400">There could be mistakes in request or no such photo exists.</response>
+        /// <response code="200">Succesfully deleted photoDto.</response>
+        /// <response code="400">There could be mistakes in request or no such photoDto exists.</response>
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize]
         [HttpDelete("delete")]

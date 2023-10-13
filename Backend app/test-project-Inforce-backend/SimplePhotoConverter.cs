@@ -7,7 +7,16 @@ namespace test_project_Inforce_backend
     public class SimplePhotoConverter : IPhotoConverter
     {
 
-        public byte[] ConvertToJpeg(byte[] photoData)
+        public byte[] ToByteArray(string photoDataStr)
+        {
+            //I know that this isn't right, but Convert.FromBase64String haven't warked. I'm in search how to fix this
+            var stringArr = photoDataStr.Split(',');
+            byte[] photoDataByte = stringArr.Select(str => Convert.ToByte(str))
+                .ToArray();
+            return photoDataByte;
+        }
+
+        public byte[] ToJpeg(byte[] photoData)
         {
             var ms = new MemoryStream(photoData);
             string path = @"D:\data\temp.jpeg";

@@ -1,7 +1,8 @@
+import { GalleryComponent } from '../gallery/gallery.component';
+import { UploadComponent } from '../upload/upload-standart.component';
+import { AlbumDto } from './../../models/album.model';
 import { AlbumService } from './../../services/album.service';
-import { AlbumDto } from 'src/app/models/album.model';
-import { PhotoService } from './../../services/photos.service';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { UserDto } from 'src/app/models/user.model';
 
 @Component({
@@ -12,21 +13,31 @@ import { UserDto } from 'src/app/models/user.model';
 export class AlbumManageComponent {
   constructor(private albumService: AlbumService) {}
 
+  @Output() galleryUpdate = new EventEmitter<AlbumDto>()
+  @Output() albumSelection = new EventEmitter<string>()
+  @ViewChild(GalleryComponent, {static: true}) galleryComponent:GalleryComponent;
+
   user: UserDto = new UserDto();
-  album: AlbumDto = new AlbumDto(); 
+  albumDto: AlbumDto = new AlbumDto(); 
   albums: AlbumDto[] = [];
+  albumTitle: string = '';
+  isShowAlbums: boolean = false;
 
   ngOnInit(): void {
     this.renderList();
+
   }
 
   createAlbum(): void {
     let id = localStorage.getItem('userId');
     if(id === null || id.length === 0) {console.log('id was null or empty. Can\'t create album'); return;}
-    this.album.userId = id;
-    debugger;
-    this.albumService.createAlbum(this.album)
-      .subscribe(x => console.log(x));
+    this.albumDto.userId = id;
+    this.albumDto.title = this.albumTitle;
+    this.albumService.createAlbum(this.albumDto)
+      .subscribe({
+        next: x => console.log(x),
+        error: error => console.error(error)
+      });
     this.renderList();
   }
 
@@ -35,6 +46,30 @@ export class AlbumManageComponent {
     if(id === null) {console.log('id was null. List render skipped'); return;}
     this.user.userId = id; 
     this.albumService.getUserAlbums(this.user)
-      .subscribe(albums => this.albums = albums);
+      .subscribe({
+        next: albums => {
+          this.isShowAlbums = true;
+          this.albums = albums
+        },
+        error: error =>
+        { 
+          console.error(error);
+          if(error.code === 401) { this.isShowAlbums = false; }
+        }
+      });
+  }
+
+  onSelectedAlbum(albumDto:AlbumDto): void {
+    this.galleryComponent.renderGallery();
+    this.albumDto = albumDto;
+    let userId = localStorage.getItem('userId');
+    if(userId === null || userId.length === 0) { console.log('userId was null or empty'); return;}
+    this.albumDto.userId = userId;
+    this.albumSelection.emit(albumDto.albumId);
+    this.renderGallery(albumDto);
+  }
+
+  renderGallery(albumDto: AlbumDto): void {
+    this.galleryUpdate.emit(albumDto);
   }
 }

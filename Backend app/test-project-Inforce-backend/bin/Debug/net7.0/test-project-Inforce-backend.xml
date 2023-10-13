@@ -13,6 +13,16 @@
             <response code="200">Succesfully founded.</response>
             <response code="404">Photo doesn't exist.</response>
         </member>
+        <member name="M:test_project_Inforce_backend.Controllers.AlbumController.UpdateAlbum(test_project_Inforce_backend.Models.AlbumDto)">
+            <summary>
+            Updates album by Id.
+            </summary>
+            <param name="albumDto">The entity to update.</param>
+            <returns>HTTP responce.</returns>
+            <response code="200">Succesfully deleted photo.</response>
+            <response code="401">The id of user in album and id of user does'nt match.</response>
+            <response code="404">There could be mistakes in request or no such photo exists.</response>
+        </member>
         <member name="M:test_project_Inforce_backend.Controllers.AlbumController.DeleteAnyalbum(test_project_Inforce_backend.Models.PhotoDto)">
             <summary>
             Deletes photo by Id
@@ -22,14 +32,15 @@
             <response code="200">Succesfully deleted photo.</response>
             <response code="400">There could be mistakes in request or no such photo exists.</response>>
         </member>
-        <member name="M:test_project_Inforce_backend.Controllers.AlbumController.DeleteAlbum(test_project_Inforce_backend.Models.PhotoDto)">
+        <member name="M:test_project_Inforce_backend.Controllers.AlbumController.DeleteAlbum(test_project_Inforce_backend.Models.AlbumDto)">
             <summary>
-            Deletes photo by Id
+            Deletes album by Id
             </summary>
-            <param name="photoDto">The entity to remove.</param>
+            <param name="albumDto">The entity to remove.</param>
             <returns>HTTP responce.</returns>
             <response code="200">Succesfully deleted photo.</response>
-            <response code="400">There could be mistakes in request or no such photo exists.</response>
+            <response code="401">The id of user in album and id of user does'nt match.</response>
+            <response code="404">There could be mistakes in request or no such photo exists.</response>
         </member>
         <member name="M:test_project_Inforce_backend.Controllers.AuthController.Register(test_project_Inforce_backend.Models.UserDto)">
             <summary>
@@ -89,31 +100,31 @@
         </member>
         <member name="M:test_project_Inforce_backend.Controllers.PhotoController.EditPhoto(test_project_Inforce_backend.Models.PhotoDto)">
             <summary>
-            Edit an existing photo.
+            Edit an existing photoDto.
             </summary>
             <param name = "photoDto" ></param >
             <returns>HTTP responce.</returns >
-            <response code="200">Succesfully edited photo.</response>
+            <response code="200">Succesfully edited photoDto.</response>
             <response code="400">Database exception.</response>
             <response code="404">Photo does not exist.</response>
         </member>
         <member name="M:test_project_Inforce_backend.Controllers.PhotoController.DeleteAnyPhotoById(test_project_Inforce_backend.Models.PhotoDto)">
             <summary>
-            Deletes photo by Id
+            Deletes photoDto by Id
             </summary>
             <param name="photoDto">The entity to remove.</param>
             <returns>HTTP responce.</returns>
-            <response code="200">Succesfully deleted photo.</response>
-            <response code="400">There could be mistakes in request or no such photo exists.</response>>
+            <response code="200">Succesfully deleted photoDto.</response>
+            <response code="400">There could be mistakes in request or no such photoDto exists.</response>>
         </member>
         <member name="M:test_project_Inforce_backend.Controllers.PhotoController.DeletePhotoById(test_project_Inforce_backend.Models.PhotoDto)">
             <summary>
-            Deletes photo by Id
+            Deletes photoDto by Id
             </summary>
             <param name="photoDto">The entity to remove.</param>
             <returns>HTTP responce.</returns>
-            <response code="200">Succesfully deleted photo.</response>
-            <response code="400">There could be mistakes in request or no such photo exists.</response>
+            <response code="200">Succesfully deleted photoDto.</response>
+            <response code="400">There could be mistakes in request or no such photoDto exists.</response>
         </member>
         <member name="T:test_project_Inforce_backend.Migrations.InitialCreate">
             <inheritdoc />
@@ -221,6 +232,18 @@
             <inheritdoc />
         </member>
         <member name="M:test_project_Inforce_backend.Migrations.allowNullInTitleInAlbum.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:test_project_Inforce_backend.Migrations.ForbiddenNullsInTitlesInAlbums">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.ForbiddenNullsInTitlesInAlbums.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.ForbiddenNullsInTitlesInAlbums.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.ForbiddenNullsInTitlesInAlbums.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:EFGuidCollection">

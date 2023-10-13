@@ -9,10 +9,8 @@ public class Photo
 
     public Photo(PhotoDto photoDto)
     {
-        PhotoId = Guid.Parse(photoDto.PhotoId);
+        PhotoId = Guid.NewGuid();
         ImageConverter converter = new ImageConverter();
-        PhotoData = (byte[])converter.ConvertTo(photoDto.PhotoData, typeof(byte[]));
-        PrewievData = (byte[])converter.ConvertTo(photoDto.PrewievData, typeof(byte[]));
         LikesCount = photoDto.LikesCount;
         DislikesCount = photoDto.DislikesCount;
     }

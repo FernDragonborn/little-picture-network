@@ -2,6 +2,7 @@
 {
     public interface IPhotoConverter
     {
-        byte[] ConvertToJpeg(byte[] photoData);
+        byte[] ToJpeg(byte[] photoData);
+        byte[] ToByteArray(string photoDataStr);
     }
 }

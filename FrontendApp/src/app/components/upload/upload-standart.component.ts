@@ -1,8 +1,7 @@
+import { AlbumService } from './../../services/album.service';
 import { PhotoDto } from '../../models/photo.model';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PhotoService } from '../../services/photos.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'upload-component',
@@ -12,9 +11,10 @@ import { FormsModule } from '@angular/forms';
 
 export class UploadComponent {
 
+  @Input() albumId: string = '';
   fileName = '';
 
-  constructor(private photoService: PhotoService) {}
+  constructor(private photoService: PhotoService, private albumService: AlbumService) {}
 
   photoRequest: PhotoDto = new PhotoDto();
 
@@ -50,13 +50,15 @@ export class UploadComponent {
   }
 
   onSubmit(): void {
-    if (this.selectedFile) {
-      const upload$ = this.photoService.addPhoto(this.photoRequest); 
-      upload$.subscribe(x => console.log(x));
+    if(!this.albumId || this.albumId.length === 0) { console.error('albumId was null or empty'); return; };
+    this.photoRequest.albumId = this.albumId;
+    let userId = localStorage.getItem('userId');
+    if(!userId || userId.length === 0)  { console.error('userId was null or empty'); return; };
+    this.photoRequest.userId = userId;
+    if(this.selectedFile) {
+      this.albumService.addPhotoToAlbum(this.photoRequest)
+        .subscribe(x => console.log(x));
     }
   }
-  
-  submitUpload(): void{ 
-    debugger;
-  }
+
 }

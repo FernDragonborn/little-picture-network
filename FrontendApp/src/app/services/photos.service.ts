@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { enviroment } from '../enviroments/enviroment';
 import { PhotoDto } from '../models/photo.model'
+import { AlbumDto } from '../models/album.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,8 @@ export class PhotoService {
     PhotoRequest);
   }
 
-  getAllPhotos(): Observable<PhotoDto[]>{
-    let a = this.http.get<PhotoDto[]>(this.baseApiUrl + '/api/photo/getAllPhotos')
-    return a;
+  getAlbumPhotos(id: string): Observable<PhotoDto[]>{
+    return this.http.get<PhotoDto[]>(this.baseApiUrl + `/api/photo/getAlbumPhotos/${id}`)
   }
 
   editPhoto(PhotoRequest: PhotoDto) : Observable<PhotoDto>{

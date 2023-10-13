@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using test_project_Inforce_backend.Data;
 using test_project_Inforce_backend.Identity;
+using test_project_Inforce_backend.Interfaces;
 using test_project_Inforce_backend.Models;
 
 namespace test_project_Inforce_backend.Controllers
@@ -12,11 +13,13 @@ namespace test_project_Inforce_backend.Controllers
     public class AlbumController : Controller
     {
         private readonly TestProjectDbContext _context;
+        private readonly IPhotoConverter _photoConverter;
 
-        public AlbumController(TestProjectDbContext context)
+        public AlbumController(TestProjectDbContext context, IPhotoConverter photoConverter)
         {
             // TODO DbContext is not thread-safe so I'm not sure to inject it like this, need to check
             _context = context;
+            _photoConverter = photoConverter;
         }
 
         /// <summary>
@@ -39,14 +42,80 @@ namespace test_project_Inforce_backend.Controllers
             return Ok(albumsResponse);
         }
 
+        /// <summary>
+        /// Updates album by Id.
+        /// </summary>
+        /// <param name="albumDto">The entity to update.</param>
+        /// <returns>HTTP responce.</returns>
+        /// <response code="200">Succesfully deleted photo.</response>
+        /// <response code="401">The id of user in album and id of user does'nt match.</response>
+        /// <response code="404">There could be mistakes in request or no such photo exists.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateAlbum(
+            [FromBody] AlbumDto albumDto)
+        {
+            Album albumResponse = new(albumDto);
+            albumResponse = _context.Albums.FirstOrDefault(x => x.AlbumId == albumResponse.AlbumId);
+            if (albumResponse is null) { return NotFound("Album with this id doesn't exist"); }
 
+            if (albumResponse.User.UserId.ToString() != albumDto.UserId) { return Unauthorized("The id of user in album and id of user does'nt match"); }
+
+            try
+            {
+                _context.Albums.Update(albumResponse);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+
+            return Ok(albumResponse);
+        }
+
+        [Authorize]
+        [HttpPost("addPhotoToAlbum")]
+        public async Task<IActionResult> AddPhotoToAlbum(
+            [FromBody] PhotoDto photoDto)
+        {
+            Photo photoResponse = new(photoDto);
+            photoResponse.PhotoData = _photoConverter.ToByteArray(photoDto.PhotoData);
+            Guid guid = Guid.Parse(photoDto.AlbumId);
+            Album album = _context.Albums.FirstOrDefault(x => x.AlbumId == guid);
+            if (album is null) { return NotFound("Album with this id doesn't exist"); }
+
+            if (album.Photos.IsNullOrEmpty()) { album.Photos = new List<Photo>(); }
+            album.User = new User()
+            {
+                UserId = Guid.Parse(photoDto.UserId)
+            };
+
+
+            if (album.User.UserId.ToString() != photoDto.UserId) { return Unauthorized("The userId in album and userId is user doesn't match"); }
+
+            album.Photos.Add(photoResponse);
+
+            try
+            {
+                _context.Albums.Update(album);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { return BadRequest(ex); }
+
+            return Ok(photoDto);
+        }
+
+        [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> CreateAlbum(
             [FromBody] AlbumDto albumDto)
         {
             Album album = new()
             {
-                AlbumId = Guid.NewGuid()
+                AlbumId = Guid.NewGuid(),
+                Title = albumDto.Title,
+                User = new User() { UserId = Guid.Parse(albumDto.UserId) }
             };
             Guid guid = Guid.Parse(albumDto.UserId);
             User user = _context.Users.FirstOrDefault(x => x.UserId == guid);
@@ -102,27 +171,35 @@ namespace test_project_Inforce_backend.Controllers
         }
 
         /// <summary>
-        /// Deletes photo by Id
+        /// Deletes album by Id
         /// </summary>
-        /// <param name="photoDto">The entity to remove.</param>
+        /// <param name="albumDto">The entity to remove.</param>
         /// <returns>HTTP responce.</returns>
         /// <response code="200">Succesfully deleted photo.</response>
-        /// <response code="400">There could be mistakes in request or no such photo exists.</response>
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        /// <response code="401">The id of user in album and id of user does'nt match.</response>
+        /// <response code="404">There could be mistakes in request or no such photo exists.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize]
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteAlbum(
-            [FromBody] PhotoDto photoDto)
+            [FromBody] AlbumDto albumDto)
         {
-            Photo photoRequest = new Photo(photoDto);
+            Album albumResponse = new(albumDto);
+            albumResponse = _context.Albums.FirstOrDefault(x => x.AlbumId == albumResponse.AlbumId);
+            if (albumResponse is null) { return NotFound("Album with this id doesn't exist"); }
+
+            if (albumResponse.User.UserId.ToString() != albumDto.UserId) { return Unauthorized("The id of user in album and id of user does'nt match"); }
+
             try
             {
-                _context.Photos.Remove(photoRequest);
+                _context.Albums.Remove(albumResponse);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex) { return BadRequest(ex); }
 
-            return Ok();
+            return Ok(albumResponse);
         }
     }
 }

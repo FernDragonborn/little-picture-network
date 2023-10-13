@@ -22,5 +22,6 @@ public class Album
 
     public List<Photo> Photos { get; set; }
 
+    [Required]
     public string? Title { get; set; }
 }

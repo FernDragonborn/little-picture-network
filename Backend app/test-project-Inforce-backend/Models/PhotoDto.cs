@@ -15,9 +15,22 @@ public class PhotoDto
         DislikesCount = dislikesCount;
     }
 
+    public PhotoDto(Photo photo)
+    {
+        PhotoId = photo.PhotoId.ToString();
+        UserId = photo.User.UserId.ToString();
+        Name = photo.Name;
+        PhotoData = photo.PhotoData.ToString();
+        PrewievData = photo.PrewievData.ToString();
+        LikesCount = photo.LikesCount;
+        DislikesCount = photo.DislikesCount;
+    }
+
     public string? PhotoId { get; set; }
 
     public string? UserId { get; set; }
+
+    public string? AlbumId { get; set; }
 
     public string? Name { get; set; }
 
