@@ -1,1 +1,3 @@
-# test project Inforce
+# little social network for pictures
+
+[WIP]
