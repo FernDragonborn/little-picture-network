@@ -27,4 +27,7 @@ public class User
     [Required]
     [MaxLength(60)]
     public string Salt { get; set; }
+
+    [Timestamp]
+    public byte[] Version { get; set; }
 }

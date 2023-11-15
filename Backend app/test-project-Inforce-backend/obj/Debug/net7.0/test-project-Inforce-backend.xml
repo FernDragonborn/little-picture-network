@@ -246,6 +246,42 @@
         <member name="M:test_project_Inforce_backend.Migrations.ForbiddenNullsInTitlesInAlbums.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:test_project_Inforce_backend.Migrations.AddedTimestamps">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.AddedTimestamps.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.AddedTimestamps.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.AddedTimestamps.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:test_project_Inforce_backend.Migrations.DdedSthIALreadyForgotWhatExactly">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.DdedSthIALreadyForgotWhatExactly.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.DdedSthIALreadyForgotWhatExactly.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.DdedSthIALreadyForgotWhatExactly.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:test_project_Inforce_backend.Migrations.removedUserPropertyFromPhoto">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.removedUserPropertyFromPhoto.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.removedUserPropertyFromPhoto.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:test_project_Inforce_backend.Migrations.removedUserPropertyFromPhoto.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:EFGuidCollection">
             <summary>
             Baseclass that allows persisting of scalar values as a collection (which is not supported by EF 4.3)

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using test_project_Inforce_backend.Data;
 
@@ -11,13 +12,15 @@ using test_project_Inforce_backend.Data;
 namespace test_project_Inforce_backend.Migrations
 {
     [DbContext(typeof(TestProjectDbContext))]
-    partial class TestProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231017205710_AddedTimestamps")]
+    partial class AddedTimestamps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -97,6 +100,9 @@ namespace test_project_Inforce_backend.Migrations
                     b.Property<byte[]>("PrewievData")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
                         .IsRequired()
@@ -110,6 +116,8 @@ namespace test_project_Inforce_backend.Migrations
                     b.HasIndex("DisikesListId");
 
                     b.HasIndex("LikesListId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Photos");
                 });
@@ -180,9 +188,17 @@ namespace test_project_Inforce_backend.Migrations
                         .WithMany()
                         .HasForeignKey("LikesListId");
 
+                    b.HasOne("test_project_Inforce_backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("DisikesList");
 
                     b.Navigation("LikesList");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using test_project_Inforce_backend.Data;
 
@@ -11,9 +12,11 @@ using test_project_Inforce_backend.Data;
 namespace test_project_Inforce_backend.Migrations
 {
     [DbContext(typeof(TestProjectDbContext))]
-    partial class TestProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231114210824_removedUserPropertyFromPhoto")]
+    partial class removedUserPropertyFromPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

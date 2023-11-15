@@ -20,8 +20,12 @@ public class Album
     [ForeignKey("UserId")]
     public virtual User User { get; set; }
 
-    public List<Photo> Photos { get; set; }
+    public virtual List<Photo> Photos { get; set; }
 
     [Required]
+    [MaxLength(100)]
     public string? Title { get; set; }
+
+    [Timestamp]
+    public byte[] Version { get; set; }
 }

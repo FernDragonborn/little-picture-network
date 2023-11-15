@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using test_project_Inforce_backend.Data;
+using test_project_Inforce_backend.Data.Album_Repository;
+using test_project_Inforce_backend.Data.Photo_Repository;
 using test_project_Inforce_backend.Identity;
 using test_project_Inforce_backend.Interfaces;
 using test_project_Inforce_backend.Models;
@@ -12,14 +16,35 @@ namespace test_project_Inforce_backend.Controllers
     [Route("api/album")]
     public class AlbumController : Controller
     {
-        private readonly TestProjectDbContext _context;
         private readonly IPhotoConverter _photoConverter;
+        private IAlbumRepository _albumRepository;
 
-        public AlbumController(TestProjectDbContext context, IPhotoConverter photoConverter)
+        public AlbumController(IPhotoConverter photoConverter)
         {
-            // TODO DbContext is not thread-safe so I'm not sure to inject it like this, need to check
-            _context = context;
             _photoConverter = photoConverter;
+            _albumRepository = new AlbumRepository(ContextFactory.CreateNew());
+        }
+
+        [HttpGet("getAlbumPhotos/{id:Guid}")]
+        public async Task<IActionResult> GetAlbumPhotos(
+            [FromRoute] Guid id)
+        {
+            await using var context = ContextFactory.CreateNew();
+            var album = context.Albums.FirstOrDefault(x => x.AlbumId == id);
+            if (album is null) { return NotFound(); }
+            //TODO needs optimization
+            List<PhotoDto> photoResponse = new();
+
+            if (album.Photos.IsNullOrEmpty()) { return NotFound("No photos added to album yet"); }
+
+            foreach (var photoDto in album.Photos)
+            {
+                //TODO add check for null (?)
+                Photo photo = context.Photos.FirstOrDefault(x => x.PhotoId == photoDto.PhotoId);
+                photoResponse.Add(new PhotoDto(photo));
+            }
+
+            return Ok(photoResponse);
         }
 
         /// <summary>
@@ -35,8 +60,9 @@ namespace test_project_Inforce_backend.Controllers
         public IActionResult GetAllAlbumsOfUser(
             [FromRoute(Name = "id")] string id)
         {
+            using var context = ContextFactory.CreateNew();
             var guid = Guid.Parse(id);
-            var albumsResponse = _context.Albums.Where(x => x.User.UserId == guid);
+            var albumsResponse = context.Albums.Where(x => x.User.UserId == guid).ToArray();
             if (albumsResponse.IsNullOrEmpty()) { return NotFound(); }
 
             return Ok(albumsResponse);
@@ -58,16 +84,17 @@ namespace test_project_Inforce_backend.Controllers
         public async Task<IActionResult> UpdateAlbum(
             [FromBody] AlbumDto albumDto)
         {
+            await using var context = ContextFactory.CreateNew();
             Album albumResponse = new(albumDto);
-            albumResponse = _context.Albums.FirstOrDefault(x => x.AlbumId == albumResponse.AlbumId);
+            albumResponse = context.Albums.FirstOrDefault(x => x.AlbumId == albumResponse.AlbumId);
             if (albumResponse is null) { return NotFound("Album with this id doesn't exist"); }
 
             if (albumResponse.User.UserId.ToString() != albumDto.UserId) { return Unauthorized("The id of user in album and id of user does'nt match"); }
 
             try
             {
-                _context.Albums.Update(albumResponse);
-                await _context.SaveChangesAsync();
+                context.Albums.Update(albumResponse);
+                await context.SaveChangesAsync();
             }
             catch (Exception ex) { return BadRequest(ex); }
 
@@ -79,29 +106,61 @@ namespace test_project_Inforce_backend.Controllers
         public async Task<IActionResult> AddPhotoToAlbum(
             [FromBody] PhotoDto photoDto)
         {
+            if (photoDto.AlbumId.IsNullOrEmpty())
+            {
+                return BadRequest("Album id was null or empty");
+            }
+
+            if (photoDto.UserId.IsNullOrEmpty())
+            {
+                return BadRequest("User id was null or empty");
+            }
+
+            using var context = ContextFactory.CreateNew();
             Photo photoResponse = new(photoDto);
             photoResponse.PhotoData = _photoConverter.ToByteArray(photoDto.PhotoData);
-            Guid guid = Guid.Parse(photoDto.AlbumId);
-            Album album = _context.Albums.FirstOrDefault(x => x.AlbumId == guid);
-            if (album is null) { return NotFound("Album with this id doesn't exist"); }
 
-            if (album.Photos.IsNullOrEmpty()) { album.Photos = new List<Photo>(); }
+            var albumGuid = Guid.Parse(photoDto.AlbumId);
+            var userGuid = Guid.Parse(photoDto.UserId);
+
+
+            //var album = context.Albums.FirstOrDefault(x => x.AlbumId == albumGuid && x.User.UserId == userGuid);
+            var album = _albumRepository.GetAlbumById(albumGuid);
             album.User = new User()
             {
                 UserId = Guid.Parse(photoDto.UserId)
             };
 
-
-            if (album.User.UserId.ToString() != photoDto.UserId) { return Unauthorized("The userId in album and userId is user doesn't match"); }
+            if (album.Photos is null)
+            {
+                album.Photos = new List<Photo>();
+            }
 
             album.Photos.Add(photoResponse);
 
             try
             {
-                _context.Albums.Update(album);
-                await _context.SaveChangesAsync();
+                //context.Update(album);
+                //context.Entry(album.User).State = EntityState.Modified;
+                //foreach (var relatedEntity in album.Photos)
+                //{
+                //    context.Entry(relatedEntity).State = EntityState.Modified;
+                //}
+                ////context.Albums.Entry(album).State = EntityState.Modified;
+                //await context.SaveChangesAsync();
+                _albumRepository.UpdateAlbum(album);
+                _albumRepository.Save();
             }
-            catch (Exception ex) { return BadRequest(ex); }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                Console.Clear();
+                Console.WriteLine(ex + "\n--------------\n" + ex.StackTrace);
+                return BadRequest(ex);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
 
             return Ok(photoDto);
         }
@@ -111,6 +170,7 @@ namespace test_project_Inforce_backend.Controllers
         public async Task<IActionResult> CreateAlbum(
             [FromBody] AlbumDto albumDto)
         {
+            await using var context = ContextFactory.CreateNew();
             Album album = new()
             {
                 AlbumId = Guid.NewGuid(),
@@ -118,7 +178,7 @@ namespace test_project_Inforce_backend.Controllers
                 User = new User() { UserId = Guid.Parse(albumDto.UserId) }
             };
             Guid guid = Guid.Parse(albumDto.UserId);
-            User user = _context.Users.FirstOrDefault(x => x.UserId == guid);
+            User user = context.Users.FirstOrDefault(x => x.UserId == guid);
             if (user is null) { return BadRequest("Usr with this id doesn't exist"); }
             album.User = user;
             if (!albumDto.PhotoIds.IsNullOrEmpty())
@@ -127,7 +187,7 @@ namespace test_project_Inforce_backend.Controllers
                 foreach (var id in albumDto.PhotoIds)
                 {
                     Guid photoGuid = Guid.Parse(id);
-                    Photo? photo = _context.Photos.FirstOrDefault(x => x.PhotoId == photoGuid);
+                    Photo? photo = context.Photos.FirstOrDefault(x => x.PhotoId == photoGuid);
 
                     if (photo is null) { continue; }
                     album.Photos.Add(photo);
@@ -136,8 +196,8 @@ namespace test_project_Inforce_backend.Controllers
 
             try
             {
-                _context.Albums.Add(album);
-                await _context.SaveChangesAsync();
+                context.Albums.Add(album);
+                await context.SaveChangesAsync();
             }
             catch (Exception ex) { return BadRequest(ex); }
 
@@ -159,11 +219,12 @@ namespace test_project_Inforce_backend.Controllers
         public async Task<IActionResult> DeleteAnyalbum(
             [FromBody] PhotoDto photoDto)
         {
+            await using var context = ContextFactory.CreateNew();
             Photo photoRequest = new Photo(photoDto);
             try
             {
-                _context.Photos.Remove(photoRequest);
-                await _context.SaveChangesAsync();
+                context.Photos.Remove(photoRequest);
+                await context.SaveChangesAsync();
             }
             catch (Exception ex) { return BadRequest(ex); }
 
@@ -186,16 +247,17 @@ namespace test_project_Inforce_backend.Controllers
         public async Task<IActionResult> DeleteAlbum(
             [FromBody] AlbumDto albumDto)
         {
+            await using var context = ContextFactory.CreateNew();
             Album albumResponse = new(albumDto);
-            albumResponse = _context.Albums.FirstOrDefault(x => x.AlbumId == albumResponse.AlbumId);
+            albumResponse = context.Albums.FirstOrDefault(x => x.AlbumId == albumResponse.AlbumId);
             if (albumResponse is null) { return NotFound("Album with this id doesn't exist"); }
 
             if (albumResponse.User.UserId.ToString() != albumDto.UserId) { return Unauthorized("The id of user in album and id of user does'nt match"); }
 
             try
             {
-                _context.Albums.Remove(albumResponse);
-                await _context.SaveChangesAsync();
+                context.Albums.Remove(albumResponse);
+                await context.SaveChangesAsync();
             }
             catch (Exception ex) { return BadRequest(ex); }
 

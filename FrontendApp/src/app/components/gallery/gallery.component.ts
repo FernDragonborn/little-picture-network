@@ -1,8 +1,8 @@
 import { PhotoService } from '../../services/photos.service';
 import { PhotoDto } from '../../models/photo.model';
 import { Component, Input } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { AlbumDto } from 'src/app/models/album.model';
+import { AlbumService } from 'src/app/services/album.service';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { AlbumDto } from 'src/app/models/album.model';
 })
 
 export class GalleryComponent {
-  constructor(private photoService: PhotoService, ) { }
+  constructor(private albumService: AlbumService, ) { }
   
   @Input() albumDto: AlbumDto = new AlbumDto();
 
@@ -23,14 +23,13 @@ export class GalleryComponent {
   ngOnInit(): void {
   }
   
-  getPhotos(): void {
-    debugger;
-    this.photoService.getAlbumPhotos(this.albumDto.userId) 
+  getPhotos(id: string): void {
+    this.albumService.getAlbumPhotos(id) 
       .subscribe(photos => this.photos = photos)
   }
 
-  renderGallery(): void {
+  renderGallery(id: string): void {
     //TODO add slice, when will have pages
-    this.getPhotos();
+    this.getPhotos(id);
   }
 }

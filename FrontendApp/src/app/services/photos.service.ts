@@ -23,10 +23,6 @@ export class PhotoService {
     PhotoRequest);
   }
 
-  getAlbumPhotos(id: string): Observable<PhotoDto[]>{
-    return this.http.get<PhotoDto[]>(this.baseApiUrl + `/api/photo/getAlbumPhotos/${id}`)
-  }
-
   editPhoto(PhotoRequest: PhotoDto) : Observable<PhotoDto>{
     return this.http.put<PhotoDto>(this.baseApiUrl + '/api/photo/edit',
       PhotoRequest);

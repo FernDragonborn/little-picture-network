@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 
 namespace test_project_Inforce_backend.Models;
 public class Photo
@@ -9,14 +8,25 @@ public class Photo
 
     public Photo(PhotoDto photoDto)
     {
-        PhotoId = Guid.NewGuid();
-        ImageConverter converter = new ImageConverter();
+        if (photoDto.PhotoId.IsNullOrEmpty())
+        {
+            PhotoId = Guid.NewGuid();
+        }
+        else if (photoDto.PhotoId == "00000000-0000-0000-0000-000000000000")
+        {
+            PhotoId = Guid.NewGuid();
+        }
+        else
+        {
+            PhotoId = Guid.Parse(photoDto.PhotoId);
+        }
         LikesCount = photoDto.LikesCount;
         DislikesCount = photoDto.DislikesCount;
     }
 
     public Photo(uint likesCount, uint disLikesCount)
     {
+        PhotoId = Guid.NewGuid();
         LikesCount = likesCount;
         DislikesCount = disLikesCount;
     }
@@ -30,9 +40,9 @@ public class Photo
     [Key]
     public Guid PhotoId { get; set; }
 
-    [Required]
-    [ForeignKey("UserId")]
-    public virtual User User { get; set; }
+    //[Required]
+    //[ForeignKey("UserId")]
+    //public virtual User User { get; set; }
 
     [MaxLength(100)]
     public string? Name { get; set; }
@@ -50,4 +60,7 @@ public class Photo
     public virtual EFGuidCollection? LikesList { get; set; }
 
     public virtual EFGuidCollection? DisikesList { get; set; }
+
+    [Timestamp]
+    public byte[] Version { get; set; }
 }

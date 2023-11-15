@@ -1,5 +1,4 @@
 import { GalleryComponent } from '../gallery/gallery.component';
-import { UploadComponent } from '../upload/upload-standart.component';
 import { AlbumDto } from './../../models/album.model';
 import { AlbumService } from './../../services/album.service';
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
@@ -60,8 +59,8 @@ export class AlbumManageComponent {
   }
 
   onSelectedAlbum(albumDto:AlbumDto): void {
-    this.galleryComponent.renderGallery();
     this.albumDto = albumDto;
+    this.galleryComponent.renderGallery(albumDto.albumId);
     let userId = localStorage.getItem('userId');
     if(userId === null || userId.length === 0) { console.log('userId was null or empty'); return;}
     this.albumDto.userId = userId;

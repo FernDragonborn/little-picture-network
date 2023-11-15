@@ -83,3 +83,5 @@ D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\D
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\test-project-Inforce-backend.xml
 D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net7.0\test-project-Inforce-backend.xml
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Castle.Core.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Proxies.dll

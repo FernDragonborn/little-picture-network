@@ -25,25 +25,6 @@ namespace test_project_Inforce_backend.Controllers
             _photoConverter = photoConverter;
         }
 
-        [HttpGet("getAlbumPhotos/{id:guid}")]
-        public async Task<IActionResult> GetAlbumPhotos(
-            [FromRoute] Guid id)
-        {
-            var album = _context.Albums.FirstOrDefault(x => x.AlbumId == id);
-            if (album is null) { return NotFound(); }
-            //TODO needs optimization
-            List<PhotoDto> photoResponse = new();
-
-            foreach (var photoDto in album.Photos)
-            {
-                //TODO add check for null (?)
-                Photo photo = _context.Photos.FirstOrDefault(x => x.PhotoId == photoDto.PhotoId);
-                photoResponse.Add(new PhotoDto(photo));
-            }
-
-            return Ok(photoResponse);
-        }
-
 
         /// <summary>
         /// Gets photoRequest data transfer object by id
@@ -122,8 +103,8 @@ namespace test_project_Inforce_backend.Controllers
 
             photo.PhotoData = _photoConverter.ToJpeg(photo.PhotoData);
 
-            photo.User = _context.Users.FirstOrDefault(x => x.UserId.ToString() == photoRequest.UserId);
-            if (photo.User is null) { return BadRequest("User was null"); }
+            //photo.User = _context.Users.FirstOrDefault(x => x.UserId.ToString() == photoRequest.UserId);
+            //if (photo.User is null) { return BadRequest("User was null"); }
 
             try
             {

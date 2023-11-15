@@ -19,6 +19,10 @@ export class AlbumService {
     return this.http.get<AlbumDto[]>(this.baseApiUrl + `/api/album/getUsersAlbums/${userDto.userId}`);
   }
 
+  getAlbumPhotos(id: string): Observable<PhotoDto[]>{
+    return this.http.get<PhotoDto[]>(this.baseApiUrl + `/api/album/getAlbumPhotos/${id}`)
+  }
+
   createAlbum(albumDto: AlbumDto): Observable<AlbumDto>{
     return this.http.post<AlbumDto>(this.baseApiUrl + '/api/album/create', albumDto);
   }

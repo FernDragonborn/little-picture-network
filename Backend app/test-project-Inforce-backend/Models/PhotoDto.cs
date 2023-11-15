@@ -18,7 +18,7 @@ public class PhotoDto
     public PhotoDto(Photo photo)
     {
         PhotoId = photo.PhotoId.ToString();
-        UserId = photo.User.UserId.ToString();
+        //UserId = photo.User.UserId.ToString();
         Name = photo.Name;
         PhotoData = photo.PhotoData.ToString();
         PrewievData = photo.PrewievData.ToString();
