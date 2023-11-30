@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using test_project_Inforce_backend.Data;
 using test_project_Inforce_backend.Data.Album_Repository;
 using test_project_Inforce_backend.Data.Photo_Repository;
 using test_project_Inforce_backend.Identity;
-using test_project_Inforce_backend.Interfaces;
 using test_project_Inforce_backend.Models;
 
 namespace test_project_Inforce_backend.Controllers
@@ -16,13 +14,12 @@ namespace test_project_Inforce_backend.Controllers
     [Route("api/album")]
     public class AlbumController : Controller
     {
-        private readonly IPhotoConverter _photoConverter;
-        private IAlbumRepository _albumRepository;
-
-        public AlbumController(IPhotoConverter photoConverter)
+        private readonly IAlbumRepository _albumRepository;
+        public AlbumController()
         {
-            _photoConverter = photoConverter;
-            _albumRepository = new AlbumRepository(ContextFactory.CreateNew());
+            _albumRepository = new AlbumRepository(
+                ContextFactory.CreateNew()
+                );
         }
 
         [HttpGet("getAlbumPhotos/{id:Guid}")]
@@ -39,9 +36,10 @@ namespace test_project_Inforce_backend.Controllers
 
             foreach (var photoDto in album.Photos)
             {
+                //TODO check and rewrite
                 //TODO add check for null (?)
-                Photo photo = context.Photos.FirstOrDefault(x => x.PhotoId == photoDto.PhotoId);
-                photoResponse.Add(new PhotoDto(photo));
+                //Photo photo = context.Photos.FirstOrDefault(x => x.PhotoId.ToString() == photoDto.PhotoId);
+                //photoResponse.Add(new PhotoDto(photo));
             }
 
             return Ok(photoResponse);
@@ -56,13 +54,12 @@ namespace test_project_Inforce_backend.Controllers
         /// <response code="404">Photo doesn't exist.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("getUsersAlbums/{id}")]
+        [HttpGet("getUsersAlbums/{id:Guid}")]
         public IActionResult GetAllAlbumsOfUser(
-            [FromRoute(Name = "id")] string id)
+            [FromRoute(Name = "id")] Guid id)
         {
             using var context = ContextFactory.CreateNew();
-            var guid = Guid.Parse(id);
-            var albumsResponse = context.Albums.Where(x => x.User.UserId == guid).ToArray();
+            var albumsResponse = context.Albums.Where(x => x.User.UserId == id).ToArray();
             if (albumsResponse.IsNullOrEmpty()) { return NotFound(); }
 
             return Ok(albumsResponse);
@@ -101,68 +98,44 @@ namespace test_project_Inforce_backend.Controllers
             return Ok(albumResponse);
         }
 
+        /// <summary>
+        /// Adds id of photo to album collection
+        /// </summary>
+        /// <param name="photoDto"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize]
-        [HttpPost("addPhotoToAlbum")]
-        public async Task<IActionResult> AddPhotoToAlbum(
+        [HttpPost("addPhotoIdToAlbum")]
+        public async Task<IActionResult> AddPhotoIdToAlbum(
             [FromBody] PhotoDto photoDto)
         {
             if (photoDto.AlbumId.IsNullOrEmpty())
             {
                 return BadRequest("Album id was null or empty");
             }
-
             if (photoDto.UserId.IsNullOrEmpty())
             {
                 return BadRequest("User id was null or empty");
             }
-
-            using var context = ContextFactory.CreateNew();
-            Photo photoResponse = new(photoDto);
-            photoResponse.PhotoData = _photoConverter.ToByteArray(photoDto.PhotoData);
+            if (photoDto.PhotoId.IsNullOrEmpty())
+            {
+                return BadRequest("User id was null or empty");
+            }
 
             var albumGuid = Guid.Parse(photoDto.AlbumId);
-            var userGuid = Guid.Parse(photoDto.UserId);
+            Photo photo = new(photoDto);
 
+            var album = _albumRepository.GetAlbumById(albumGuid)
+                        ?? throw new ArgumentException("album with this id does not exist");
+            album.Photos ??= new();
+            album.Photos.Add(photo);
 
-            //var album = context.Albums.FirstOrDefault(x => x.AlbumId == albumGuid && x.User.UserId == userGuid);
-            var album = _albumRepository.GetAlbumById(albumGuid);
-            album.User = new User()
-            {
-                UserId = Guid.Parse(photoDto.UserId)
-            };
+            _albumRepository.UpdateAlbum(album);
+            _albumRepository.Save();
 
-            if (album.Photos is null)
-            {
-                album.Photos = new List<Photo>();
-            }
-
-            album.Photos.Add(photoResponse);
-
-            try
-            {
-                //context.Update(album);
-                //context.Entry(album.User).State = EntityState.Modified;
-                //foreach (var relatedEntity in album.Photos)
-                //{
-                //    context.Entry(relatedEntity).State = EntityState.Modified;
-                //}
-                ////context.Albums.Entry(album).State = EntityState.Modified;
-                //await context.SaveChangesAsync();
-                _albumRepository.UpdateAlbum(album);
-                _albumRepository.Save();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                Console.Clear();
-                Console.WriteLine(ex + "\n--------------\n" + ex.StackTrace);
-                return BadRequest(ex);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-
-            return Ok(photoDto);
+            return Ok(album);
         }
 
         [Authorize]
@@ -181,12 +154,14 @@ namespace test_project_Inforce_backend.Controllers
             User user = context.Users.FirstOrDefault(x => x.UserId == guid);
             if (user is null) { return BadRequest("Usr with this id doesn't exist"); }
             album.User = user;
+
             if (!albumDto.PhotoIds.IsNullOrEmpty())
             {
-                album.Photos = new List<Photo>();
+                album.Photos = new();
                 foreach (var id in albumDto.PhotoIds)
                 {
                     Guid photoGuid = Guid.Parse(id);
+                    //TODO rewiev cause of new system of saving photos
                     Photo? photo = context.Photos.FirstOrDefault(x => x.PhotoId == photoGuid);
 
                     if (photo is null) { continue; }
@@ -196,11 +171,14 @@ namespace test_project_Inforce_backend.Controllers
 
             try
             {
-                context.Albums.Add(album);
-                await context.SaveChangesAsync();
+                _albumRepository.AddAlbum(album);
+                _albumRepository.Save();
+                //await context.SaveChangesAsync();
             }
-            catch (Exception ex) { return BadRequest(ex); }
-
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
 
             return Ok(album);
         }
@@ -216,7 +194,7 @@ namespace test_project_Inforce_backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Policy = IdentityData.AdminUserPolicyName)]
         [HttpDelete("deleteAny")]
-        public async Task<IActionResult> DeleteAnyalbum(
+        public async Task<IActionResult> DeleteAnyAlbum(
             [FromBody] PhotoDto photoDto)
         {
             await using var context = ContextFactory.CreateNew();

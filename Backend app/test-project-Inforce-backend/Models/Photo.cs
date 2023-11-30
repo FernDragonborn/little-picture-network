@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace test_project_Inforce_backend.Models;
 public class Photo
@@ -40,9 +41,9 @@ public class Photo
     [Key]
     public Guid PhotoId { get; set; }
 
-    //[Required]
-    //[ForeignKey("UserId")]
-    //public virtual User User { get; set; }
+    [Required]
+    [ForeignKey("UserId")]
+    public virtual User User { get; set; }
 
     [MaxLength(100)]
     public string? Name { get; set; }

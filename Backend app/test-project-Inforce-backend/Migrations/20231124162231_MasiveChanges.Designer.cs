@@ -12,15 +12,15 @@ using test_project_Inforce_backend.Data;
 namespace test_project_Inforce_backend.Migrations
 {
     [DbContext(typeof(TestProjectDbContext))]
-    [Migration("20231026134127_DdedSthIALreadyForgotWhatExactly")]
-    partial class DdedSthIALreadyForgotWhatExactly
+    [Migration("20231124162231_MasiveChanges")]
+    partial class MasiveChanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -48,6 +48,9 @@ namespace test_project_Inforce_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("PhotosId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -64,6 +67,8 @@ namespace test_project_Inforce_backend.Migrations
 
                     b.HasKey("AlbumId");
 
+                    b.HasIndex("PhotosId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Albums");
@@ -73,9 +78,6 @@ namespace test_project_Inforce_backend.Migrations
                 {
                     b.Property<Guid>("PhotoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AlbumId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("DisikesListId")
@@ -110,8 +112,6 @@ namespace test_project_Inforce_backend.Migrations
                         .HasColumnType("rowversion");
 
                     b.HasKey("PhotoId");
-
-                    b.HasIndex("AlbumId");
 
                     b.HasIndex("DisikesListId");
 
@@ -165,21 +165,25 @@ namespace test_project_Inforce_backend.Migrations
 
             modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
                 {
+                    b.HasOne("EFGuidCollection", "Photos")
+                        .WithMany()
+                        .HasForeignKey("PhotosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("test_project_Inforce_backend.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Photos");
+
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("test_project_Inforce_backend.Models.Photo", b =>
                 {
-                    b.HasOne("test_project_Inforce_backend.Models.Album", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("AlbumId");
-
                     b.HasOne("EFGuidCollection", "DisikesList")
                         .WithMany()
                         .HasForeignKey("DisikesListId");
@@ -199,11 +203,6 @@ namespace test_project_Inforce_backend.Migrations
                     b.Navigation("LikesList");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
-                {
-                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,9 +12,10 @@ public class AlbumRepository : IAlbumRepository
         this._context = context;
     }
 
-    public IEnumerable<Album> GetAllAlbums()
+    public List<Album> GetAllAlbums()
     {
-        return _context.Albums;
+        var a = _context.Albums;
+        return a.ToList();
     }
 
     public Album? GetAlbumById(Guid Id)
@@ -27,20 +28,15 @@ public class AlbumRepository : IAlbumRepository
         _context.Albums.Add(album);
     }
 
-    public void UpdateAlbumViaList(List<Album> album)
-    {
-        _context.Entry(album).State = EntityState.Modified;
-    }
-
     public void UpdateAlbum(Album album)
     {
         _context.Entry(album).State = EntityState.Modified;
     }
 
-    public void UpdateTable(List<Album> albums)
+    public void UpdateTable(List<Album> albums, Album album)
     {
-        throw new NotImplementedException();
-        //_context.Albums = albums;
+        _context.Entry(album).State = EntityState.Modified;
+        _context.Albums.UpdateRange(albums);
     }
 
     public void DeleteAlbum(Guid Id)
@@ -52,14 +48,17 @@ public class AlbumRepository : IAlbumRepository
 
     public void Save()
     {
-        _context.SaveChanges();
+        lock (_context)
+        {
+            _context.SaveChanges();
+        }
     }
 
     private bool disposed = false;
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!this.disposed)
+        if (!disposed)
         {
             if (disposing)
             {

@@ -17,7 +17,7 @@ namespace test_project_Inforce_backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -45,6 +45,9 @@ namespace test_project_Inforce_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("PhotosId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -61,6 +64,8 @@ namespace test_project_Inforce_backend.Migrations
 
                     b.HasKey("AlbumId");
 
+                    b.HasIndex("PhotosId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Albums");
@@ -70,9 +75,6 @@ namespace test_project_Inforce_backend.Migrations
                 {
                     b.Property<Guid>("PhotoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AlbumId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("DisikesListId")
@@ -97,6 +99,9 @@ namespace test_project_Inforce_backend.Migrations
                     b.Property<byte[]>("PrewievData")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
                         .IsRequired()
@@ -105,11 +110,11 @@ namespace test_project_Inforce_backend.Migrations
 
                     b.HasKey("PhotoId");
 
-                    b.HasIndex("AlbumId");
-
                     b.HasIndex("DisikesListId");
 
                     b.HasIndex("LikesListId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Photos");
                 });
@@ -157,21 +162,23 @@ namespace test_project_Inforce_backend.Migrations
 
             modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
                 {
+                    b.HasOne("EFGuidCollection", "Photos")
+                        .WithMany()
+                        .HasForeignKey("PhotosId");
+
                     b.HasOne("test_project_Inforce_backend.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Photos");
+
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("test_project_Inforce_backend.Models.Photo", b =>
                 {
-                    b.HasOne("test_project_Inforce_backend.Models.Album", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("AlbumId");
-
                     b.HasOne("EFGuidCollection", "DisikesList")
                         .WithMany()
                         .HasForeignKey("DisikesListId");
@@ -180,14 +187,17 @@ namespace test_project_Inforce_backend.Migrations
                         .WithMany()
                         .HasForeignKey("LikesListId");
 
+                    b.HasOne("test_project_Inforce_backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("DisikesList");
 
                     b.Navigation("LikesList");
-                });
 
-            modelBuilder.Entity("test_project_Inforce_backend.Models.Album", b =>
-                {
-                    b.Navigation("Photos");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

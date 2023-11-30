@@ -36,8 +36,10 @@ namespace test_project_Inforce_backend.Controllers
                 return BadRequest("User with this login already exists");
             }
 
-            User user = new();
-            user.Salt = BCrypt.Net.BCrypt.GenerateSalt();
+            User user = new()
+            {
+                Salt = BCrypt.Net.BCrypt.GenerateSalt()
+            };
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password + user.Salt, workFactor: 13);
 
             user.Login = userDto.Login;
@@ -51,8 +53,10 @@ namespace test_project_Inforce_backend.Controllers
             catch (Exception ex) { return BadRequest(ex); }
 
             string token = JwtHandler.CreateToken(user);
-            userDto = new UserDto(user);
-            userDto.JwtToken = token;
+            userDto = new UserDto(user)
+            {
+                JwtToken = token
+            };
             return Created("api/auth", userDto);
         }
 
@@ -78,8 +82,10 @@ namespace test_project_Inforce_backend.Controllers
             }
 
             string token = JwtHandler.CreateToken(user);
-            userDto = new UserDto(user);
-            userDto.JwtToken = token;
+            userDto = new UserDto(user)
+            {
+                JwtToken = token
+            };
             return Ok(userDto);
         }
 
@@ -98,8 +104,10 @@ namespace test_project_Inforce_backend.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == userDto.Login);
             if (user is null) { return BadRequest("User not found"); }
             string token = JwtHandler.CreateToken(user);
-            userDto = new UserDto(user);
-            userDto.JwtToken = token;
+            userDto = new UserDto(user)
+            {
+                JwtToken = token
+            };
             return Ok(userDto);
         }
     }

@@ -21,6 +21,7 @@ public class Album
     public virtual User User { get; set; }
 
     public virtual List<Photo> Photos { get; set; }
+    //public virtual EFGuidCollection? Photos { get; set; }
 
     [Required]
     [MaxLength(100)]
