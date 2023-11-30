@@ -1,0 +1,87 @@
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\appsettings.Development.json
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\appsettings.json
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\small picture network backend.exe
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\small picture network backend.deps.json
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\small picture network backend.runtimeconfig.json
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\small picture network backend.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\small picture network backend.pdb
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\small picture network backend.xml
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\AntiVirusScanner.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Azure.Core.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Azure.Identity.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Castle.Core.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\DotNetEnv.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Humanizer.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Proxies.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Mono.TextTemplating.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Scrutor.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Sprache.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.CodeDom.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.Drawing.Common.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.Memory.Data.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.Runtime.Caching.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.Security.Permissions.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\System.Windows.Extensions.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.csproj.AssemblyReference.cache
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.GeneratedMSBuildEditorConfig.editorconfig
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.AssemblyInfoInputs.cache
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.AssemblyInfo.cs
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.csproj.CoreCompileInputs.cache
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.MvcApplicationPartsAssemblyInfo.cs
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.MvcApplicationPartsAssemblyInfo.cache
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.sourcelink.json
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\staticwebassets.build.json
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\staticwebassets.development.json
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\staticwebassets\msbuild.small picture network backend.Microsoft.AspNetCore.StaticWebAssets.props
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\staticwebassets\msbuild.build.small picture network backend.props
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.small picture network backend.props
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.small picture network backend.props
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\staticwebassets.pack.json
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\scopedcss\bundle\small picture network backend.styles.css
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.csproj.CopyComplete
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\refint\small picture network backend.dll
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.xml
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.pdb
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\small picture network backend.genruntimeconfig.cache
+D:\data\code\test project Inforce\Backend app\test-project-Inforce-backend\obj\Debug\net8.0\ref\small picture network backend.dll
