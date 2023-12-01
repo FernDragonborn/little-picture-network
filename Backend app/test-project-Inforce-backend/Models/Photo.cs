@@ -1,6 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace test_project_Inforce_backend.Models;
 public class Photo
@@ -41,9 +40,9 @@ public class Photo
     [Key]
     public Guid PhotoId { get; set; }
 
-    [Required]
-    [ForeignKey("UserId")]
-    public virtual User User { get; set; }
+    //[Required]
+    //[ForeignKey("AlbumId")]
+    //public virtual Album Album { get; set; }
 
     [MaxLength(100)]
     public string? Name { get; set; }
@@ -57,7 +56,7 @@ public class Photo
 
     [Required]
     public uint? DislikesCount { get; set; }
-
+    //TODO rewrite with List<Like>
     public virtual EFGuidCollection? LikesList { get; set; }
 
     public virtual EFGuidCollection? DisikesList { get; set; }

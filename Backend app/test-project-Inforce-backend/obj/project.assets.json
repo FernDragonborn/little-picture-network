@@ -8379,11 +8379,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\data\\code\\test project Inforce\\Backend app\\test-project-Inforce-backend\\small picture network backend.csproj",
-      "projectName": "small picture network backend",
-      "projectPath": "D:\\data\\code\\test project Inforce\\Backend app\\test-project-Inforce-backend\\small picture network backend.csproj",
+      "projectUniqueName": "D:\\data\\code\\little-picture-network\\Backend app\\test-project-Inforce-backend\\little picture network backend.csproj",
+      "projectName": "little picture network backend",
+      "projectPath": "D:\\data\\code\\little-picture-network\\Backend app\\test-project-Inforce-backend\\little picture network backend.csproj",
       "packagesPath": "C:\\Users\\mrart\\.nuget\\packages\\",
-      "outputPath": "D:\\data\\code\\test project Inforce\\Backend app\\test-project-Inforce-backend\\obj\\",
+      "outputPath": "D:\\data\\code\\little-picture-network\\Backend app\\test-project-Inforce-backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\install\\Microsoft Visual Sudio\\Shared\\NuGetPackages"

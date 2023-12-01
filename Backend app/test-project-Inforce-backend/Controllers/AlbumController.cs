@@ -14,14 +14,23 @@ namespace test_project_Inforce_backend.Controllers
     [Route("api/album")]
     public class AlbumController : Controller
     {
-        private readonly IAlbumRepository _albumRepository;
+        private readonly AlbumRepository _albumRepository;
+        private readonly IPhotoRepository _photoRepository;
+
         public AlbumController()
         {
+            _photoRepository = new PhotoRepository(
+                    ContextFactory.CreateNew(),
+                    new WindowsEmbededVirusScanner(),
+                    new SimplePhotoConverter()
+                );
             _albumRepository = new AlbumRepository(
                 ContextFactory.CreateNew()
                 );
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("getAlbumPhotos/{id:Guid}")]
         public async Task<IActionResult> GetAlbumPhotos(
             [FromRoute] Guid id)
@@ -102,15 +111,15 @@ namespace test_project_Inforce_backend.Controllers
         /// Adds id of photo to album collection
         /// </summary>
         /// <param name="photoDto"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <returns>HTTP responce</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize]
-        [HttpPost("addPhotoIdToAlbum")]
-        public async Task<IActionResult> AddPhotoIdToAlbum(
+        [HttpPost("addPhotoToAlbum")]
+        public async Task<IActionResult> AddPhotoToAlbum(
             [FromBody] PhotoDto photoDto)
         {
+            #region check for null and empty
             if (photoDto.AlbumId.IsNullOrEmpty())
             {
                 return BadRequest("Album id was null or empty");
@@ -123,14 +132,29 @@ namespace test_project_Inforce_backend.Controllers
             {
                 return BadRequest("User id was null or empty");
             }
+            if (photoDto.PhotoData.IsNullOrEmpty())
+            {
+                return BadRequest("Photo data was null or empty");
+            }
+            #endregion
 
             var albumGuid = Guid.Parse(photoDto.AlbumId);
-            Photo photo = new(photoDto);
+            var album = _albumRepository.GetAlbumById(albumGuid);
+            if (album is null) return BadRequest("album with this id does not exist");
 
-            var album = _albumRepository.GetAlbumById(albumGuid)
-                        ?? throw new ArgumentException("album with this id does not exist");
+            Photo photoResponse;
+            try
+            {
+                photoResponse = await _photoRepository.AddPhotoAsync(photoDto);
+                _photoRepository.Save();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             album.Photos ??= new();
-            album.Photos.Add(photo);
+            album.Photos.Add(photoResponse);
 
             _albumRepository.UpdateAlbum(album);
             _albumRepository.Save();
@@ -138,49 +162,42 @@ namespace test_project_Inforce_backend.Controllers
             return Ok(album);
         }
 
+
+        /// <summary>
+        /// Creates new album in database
+        /// </summary>
+        /// <param name="albumDto"></param>
+        /// <returns>HTTP responce</returns>
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> CreateAlbum(
             [FromBody] AlbumDto albumDto)
         {
-            await using var context = ContextFactory.CreateNew();
-            Album album = new()
+            #region check for null and empty
+            if (albumDto.UserId.IsNullOrEmpty())
             {
-                AlbumId = Guid.NewGuid(),
-                Title = albumDto.Title,
-                User = new User() { UserId = Guid.Parse(albumDto.UserId) }
-            };
-            Guid guid = Guid.Parse(albumDto.UserId);
-            User user = context.Users.FirstOrDefault(x => x.UserId == guid);
-            if (user is null) { return BadRequest("Usr with this id doesn't exist"); }
-            album.User = user;
-
-            if (!albumDto.PhotoIds.IsNullOrEmpty())
-            {
-                album.Photos = new();
-                foreach (var id in albumDto.PhotoIds)
-                {
-                    Guid photoGuid = Guid.Parse(id);
-                    //TODO rewiev cause of new system of saving photos
-                    Photo? photo = context.Photos.FirstOrDefault(x => x.PhotoId == photoGuid);
-
-                    if (photo is null) { continue; }
-                    album.Photos.Add(photo);
-                }
+                return BadRequest("User id was null or empty");
             }
+            if (albumDto.Title.IsNullOrEmpty())
+            {
+                return BadRequest("Album id was null or empty");
+            }
+            #endregion
 
             try
             {
-                _albumRepository.AddAlbum(album);
+                _albumRepository.AddAlbum(albumDto);
                 _albumRepository.Save();
-                //await context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
-                return BadRequest(ex);
+                if (ex.InnerException is null) return BadRequest(ex.Message);
+                else return BadRequest(ex.InnerException.Message);
             }
 
-            return Ok(album);
+            return Ok(albumDto);
         }
 
         /// <summary>

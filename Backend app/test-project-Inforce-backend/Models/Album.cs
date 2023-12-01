@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace test_project_Inforce_backend.Models;
@@ -20,8 +21,7 @@ public class Album
     [ForeignKey("UserId")]
     public virtual User User { get; set; }
 
-    public virtual List<Photo> Photos { get; set; }
-    //public virtual EFGuidCollection? Photos { get; set; }
+    public virtual List<Photo>? Photos { get; set; }
 
     [Required]
     [MaxLength(100)]

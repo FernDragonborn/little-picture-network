@@ -3,7 +3,7 @@
 namespace test_project_Inforce_backend.Data.Photo_Repository;
 public interface IPhotoRepository : IDisposable
 {
-    Task<PhotoDto> AddPhotoAsync(PhotoDto photoDto);
+    Task<Photo> AddPhotoAsync(PhotoDto photoDto);
     Photo? GetPhotoById(Guid id);
     PhotoDto? GetPhotoDtoById(Guid id);
     PhotoDto? UpdatePhoto(PhotoDto photoDto);

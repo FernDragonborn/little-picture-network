@@ -28,13 +28,13 @@ public class PhotoRepository : IPhotoRepository
         return new PhotoDto(_context.Photos.Find(Id));
     }
 
-    public async Task<PhotoDto> AddPhotoAsync(PhotoDto photoDto)
+    public async Task<Photo> AddPhotoAsync(PhotoDto photoDto)
     {
         if (photoDto.PhotoData.IsNullOrEmpty()) { throw new ArgumentException("PhotoData was empty."); }
 
         Photo photo = new(0, 0)
         {
-            User = await _context.Users.FindAsync(Guid.Parse(photoDto.UserId)),
+            //User = await _context.Users.FindAsync(Guid.Parse(photoDto.UserId)),
             PhotoData = _photoConverter.ToByteArray(photoDto.PhotoData)
         };
 
@@ -48,7 +48,7 @@ public class PhotoRepository : IPhotoRepository
             _context.Photos.Add(photo);
             _context.SaveChanges();
         }
-        return new PhotoDto(photo);
+        return photo;
     }
 
     public PhotoDto UpdatePhoto(PhotoDto photoRequest)

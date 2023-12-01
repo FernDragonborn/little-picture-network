@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using test_project_Inforce_backend.Data.Photo_Repository;
 using test_project_Inforce_backend.Models;
 
 namespace test_project_Inforce_backend.Data.Album_Repository;
-public class AlbumRepository : IAlbumRepository
+public class AlbumRepository
 {
     private TestProjectDbContext _context;
 
@@ -23,8 +22,14 @@ public class AlbumRepository : IAlbumRepository
         return _context.Albums.Find(Id);
     }
 
-    public void AddAlbum(Album album)
+    public void AddAlbum(AlbumDto albumDto)
     {
+        Album album = new(albumDto)
+        {
+            User = _context.Users.Find(Guid.Parse(albumDto.UserId)) ??
+                   throw new ArgumentException("user with this id does not exist"),
+            AlbumId = Guid.NewGuid(),
+        };
         _context.Albums.Add(album);
     }
 

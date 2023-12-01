@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("small picture network backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b34ea2fce9f898c4cbb792d1942570e587401592")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("small picture network backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("small picture network backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

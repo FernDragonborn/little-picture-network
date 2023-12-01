@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "small picture network backend", "small picture network backend.csproj", "{BCFCB8DE-50F1-49A3-985C-13841922120B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "little picture network backend", "little picture network backend.csproj", "{BCFCB8DE-50F1-49A3-985C-13841922120B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

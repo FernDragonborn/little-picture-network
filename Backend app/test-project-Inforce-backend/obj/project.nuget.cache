@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "d3FvLmh/d2s+uZGmOtFC1sYF/jOLaaWaVbmv8ikyQTH9wj5Tp+Bm6evKmSEPKmlMIdeWRdzEUE7c9kZdgffMzw==",
+  "dgSpecHash": "W5tlPTPDuFS+ble3OYq27eeR26Ao3H4vgJnqdb78FP8quu/ALFzMHL1uEcjmpBjMQpQVZ8prvkOC9gmVHWNoZg==",
   "success": true,
-  "projectFilePath": "D:\\data\\code\\test project Inforce\\Backend app\\test-project-Inforce-backend\\small picture network backend.csproj",
+  "projectFilePath": "D:\\data\\code\\little-picture-network\\Backend app\\test-project-Inforce-backend\\little picture network backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mrart\\.nuget\\packages\\antivirusscanner\\1.0.2\\antivirusscanner.1.0.2.nupkg.sha512",
     "C:\\Users\\mrart\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",

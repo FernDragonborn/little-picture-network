@@ -61,7 +61,7 @@ namespace test_project_Inforce_backend.Controllers
         public async Task<IActionResult> AddPhoto(
             [FromBody] PhotoDto photoDto)
         {
-            PhotoDto photoResponse;
+            Photo photoResponse;
             try
             {
                 photoResponse = await _photoRepository.AddPhotoAsync(photoDto);
@@ -70,7 +70,7 @@ namespace test_project_Inforce_backend.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            return Created("api/photoDto", photoResponse);
+            return Created("api/photoDto", new PhotoDto(photoResponse));
         }
 
         /// <summary>
