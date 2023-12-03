@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using test_project_Inforce_backend.Data;
-using test_project_Inforce_backend.Data.Album_Repository;
-using test_project_Inforce_backend.Data.Photo_Repository;
+using test_project_Inforce_backend.Data.Services;
 using test_project_Inforce_backend.Identity;
 using test_project_Inforce_backend.Models;
 
@@ -14,17 +13,17 @@ namespace test_project_Inforce_backend.Controllers
     [Route("api/album")]
     public class AlbumController : Controller
     {
-        private readonly AlbumRepository _albumRepository;
-        private readonly IPhotoRepository _photoRepository;
+        private readonly AlbumService _albumRepository;
+        private readonly PhotoService _photoService;
 
         public AlbumController()
         {
-            _photoRepository = new PhotoRepository(
+            _photoService = new PhotoService(
                     ContextFactory.CreateNew(),
                     new WindowsEmbededVirusScanner(),
                     new SimplePhotoConverter()
                 );
-            _albumRepository = new AlbumRepository(
+            _albumRepository = new AlbumService(
                 ContextFactory.CreateNew()
                 );
         }
@@ -145,8 +144,8 @@ namespace test_project_Inforce_backend.Controllers
             Photo photoResponse;
             try
             {
-                photoResponse = await _photoRepository.AddPhotoAsync(photoDto);
-                _photoRepository.Save();
+                photoResponse = await _photoService.AddPhotoAsync(photoDto);
+                _photoService.Save();
             }
             catch (ArgumentException ex)
             {

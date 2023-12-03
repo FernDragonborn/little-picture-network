@@ -1,17 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using test_project_Inforce_backend.Data.Photo_Repository;
 using test_project_Inforce_backend.Interfaces;
 using test_project_Inforce_backend.Models;
 
-namespace test_project_Inforce_backend.Data.Album_Repository;
-public class PhotoRepository : IPhotoRepository
+namespace test_project_Inforce_backend.Data.Services;
+public class PhotoService
 {
     private readonly TestProjectDbContext _context;
     private readonly IVirusScanner _virusScanner;
     private readonly IPhotoConverter _photoConverter;
 
-    public PhotoRepository(TestProjectDbContext context, IVirusScanner virusScanner, IPhotoConverter photoConverter)
+    public PhotoService(TestProjectDbContext context, IVirusScanner virusScanner, IPhotoConverter photoConverter)
     {
         _context = context;
         _virusScanner = virusScanner;
@@ -93,7 +92,7 @@ public class PhotoRepository : IPhotoRepository
                 _context.Dispose();
             }
         }
-        this.disposed = true;
+        disposed = true;
     }
 
     public void Dispose()

@@ -38,4 +38,8 @@
     <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
   </ItemGroup>
 
+
+    <ItemGroup>
+		<InternalsVisibleTo Include="little_picture_network_tests"/>
+    </ItemGroup>
 </Project>
