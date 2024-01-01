@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import "custom.scss";
 
 html, body { height: 100%; }
 body {
@@ -28,7 +28,22 @@ a:hover{
     width: 97%
 }
 .border-top{
-    border-bottom: 1px!important;
+    border-top: 1px!important;
     border-top-style: solid!important;
     border-top-color: #121416!important;
+}
+.border-left{
+    border-left: 1px!important;
+    border-left-style: solid!important;
+    border-left-color: #121416!important;
+}
+.border-right{
+    border-right: 1px!important;
+    border-right-style: solid!important;
+    border-right-color: #121416!important;
+}
+.border-bottom{
+    border-bottom: 1px!important;
+    border-bottom-style: solid!important;
+    border-bottom-color: #121416!important;
 }

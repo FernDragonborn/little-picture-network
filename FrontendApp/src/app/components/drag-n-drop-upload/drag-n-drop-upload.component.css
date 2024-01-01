@@ -14,11 +14,10 @@ h3,h4,p{
   }
   
   .dropzone {
-      height: 200px;
-      display: table;
-      width: 100%;
-      background-color: #eee;
-      border: dotted 1px #aaa;
+    height: 200px;
+    display: table;
+    width: 100%;
+    border:1px solid #121416;
   }
   
   input[type="file"]{
@@ -62,12 +61,12 @@ h3,h4,p{
     display:block;
     position:relative;
     float:left;
-    border:2px dashed #778899;
+    border:1px solid #121416;
     border-radius:5px;
     transition: .3s ease;
   }
     .fileItem:hover{
-      border:2px solid #c33838;
+      border:1px solid #121416;
       background-color: #c33838bf;
     }
     .fileItem:hover .fileItemIcon::before{
