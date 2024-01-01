@@ -1,4 +1,4 @@
-<div class="p-2 d-flex">
+<div class="p-2 d-flex bg-general">
   <a
     class="ps-2 pt-2 snavbar-brand link-underline link-underline-opacity-0"
     style="font-size: 1.8em; vertical-align: middle; position: absolute"
@@ -6,13 +6,13 @@
     >Логотип</a
   >
   <nav
-    class="p-2 bg-general justify-content-around rounded-3"
+    class="p-2 bg-block justify-content-around rounded-3"
     style="display: flex; width: 23%; margin-left: auto; margin-right: auto"
   >
     <a
       aria-current="page"
-      routerLink=""
-      class="hover:text-green-brand"
+      routerLink="feed"
+      class="hover:green"
       title="Персональна стрічка рекомендацій"
     >
       <svg
@@ -60,11 +60,7 @@
       </a>
     </div>
     <div>
-      <a
-        routerLink="view"
-        class="hover:text-green-brand"
-        title="Збережені пости"
-      >
+      <a routerLink="view" class="hover:green" title="Збережені пости">
         <svg
           aria-hidden="true"
           fill="none"
@@ -83,10 +79,7 @@
         </svg>
       </a>
     </div>
-    <a
-      routerLink="notifications"
-      class="hover:text-green-brand"
-      title="Сповіщення"
+    <a routerLink="notifications" class="hover:green" title="Сповіщення"
       ><svg
         aria-hidden="true"
         fill="none"
