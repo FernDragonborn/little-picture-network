@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AlbumManageComponent } from './components/album-manage/album-manage.component';
 import { AlbumViewComponent } from './components/album-view/album-view.component';
 import { FeedComponent } from './components/feed/feed.component';
+import { AccountPageComponent } from './components/account-page/account-page.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,11 @@ const routes: Routes = [
   {
     path: 'view',
     component: AlbumViewComponent
-  }
+  },
+  {
+    path:'account',
+    component: AccountPageComponent
+    }
 ];
 
 @NgModule({
