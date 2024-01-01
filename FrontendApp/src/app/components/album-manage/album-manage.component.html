@@ -1,32 +1,48 @@
-<upload-component [albumId]="albumDto.albumId"></upload-component>
-
-<h4 class="ps-2">Albums:</h4>
-<div *ngIf="isShowAlbums && albums.length > 0" class="ps-2" style="width: 40%">
-  <div class="list-group" *ngFor="let album of albums">
-    <button
-      (click)="onSelectedAlbum(album)"
-      type="button"
-      class="list-group-item list-group-item-action"
+<div
+  class="d-flex position-absolute top-50 start-50 translate-middle"
+  style="width: 80%"
+>
+  <div style="width: 33%">
+    <h4 class="ps-2">Albums:</h4>
+    <div
+      *ngIf="isShowAlbums && albums.length > 0"
+      class="ps-2"
+      style="width: 40%"
     >
-      {{ album.title }}
-    </button>
+      <div class="list-group" *ngFor="let album of albums">
+        <button
+          (click)="onSelectedAlbum(album)"
+          type="button"
+          class="list-group-item list-group-item-action"
+        >
+          {{ album.title }}
+        </button>
+      </div>
+      <div>Album chosen: {{ albumDto.title }}</div>
+    </div>
+    <div *ngIf="isShowAlbums && albums.length === 0">
+      <h3>Album list is empty</h3>
+    </div>
+    <div *ngIf="!isShowAlbums" class="ps-2">
+      <h3>Please log in before uploading</h3>
+    </div>
+    <div class="d-flex flex-column p-2" style="width: 95%">
+      <label class="p-1">Create album</label>
+      <input
+        class="p-1"
+        [(ngModel)]="albumTitle"
+        placeholder="Title"
+        type="text"
+      />
+      <div class="p-1 justify-content-center" style="width: 100%">
+        <button (click)="createAlbum()" type="button" class="btn btn-primary">
+          Create album
+        </button>
+      </div>
+    </div>
   </div>
-  <div>Album chosen: {{ albumDto.title }}</div>
-</div>
-<div *ngIf="isShowAlbums && albums.length === 0">
-  <h3>Album list is empty</h3>
-</div>
-<div *ngIf="!isShowAlbums" class="ps-2">
-  <h3>Please log in before uploading</h3>
-</div>
-<div class="d-flex flex-column p-2" style="width: 30%">
-  <label class="p-1">Create album</label>
-  <input class="p-1" [(ngModel)]="albumTitle" placeholder="Title" type="text" />
-  <div class="p-1 justify-content-center" style="width: 100%">
-    <button (click)="createAlbum()" type="button" class="btn btn-primary">
-      Create album
-    </button>
+  <div style="width: 67%">
+    <upload-component [albumId]="albumDto.albumId"></upload-component>
   </div>
 </div>
-
 <gallery-component [albumDto]="albumDto"></gallery-component>

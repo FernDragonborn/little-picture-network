@@ -19,6 +19,12 @@ import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AlbumManageComponent } from './components/album-manage/album-manage.component';
 import { AlbumService } from './services/album.service';
+import { LikePaletteComponent } from './components/like-palette/like-palette.component';
+import { DragNDropUploadComponent } from './components/drag-n-drop-upload/drag-n-drop-upload.component';
+import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confirm.component';
+import { FileDragNDropDirective } from './components/drag-n-drop-upload/file-drag-n-drop.directive';
+import { AlbumViewComponent } from './components/album-view/album-view.component';
+import { FeedComponent } from './components/feed/feed.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +33,12 @@ import { AlbumService } from './services/album.service';
     GalleryComponent,
     LoginComponent,
     AlbumManageComponent,
+    LikePaletteComponent,
+    DragNDropUploadComponent,
+    DialogConfirmComponent,
+    FileDragNDropDirective,
+    AlbumViewComponent,
+    FeedComponent,
   ],
   imports: [
     BrowserModule,

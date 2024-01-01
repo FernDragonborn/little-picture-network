@@ -1,4 +1,3 @@
-import { PhotoService } from '../../services/photos.service';
 import { PhotoDto } from '../../models/photo.model';
 import { Component, Input } from '@angular/core';
 import { AlbumDto } from 'src/app/models/album.model';

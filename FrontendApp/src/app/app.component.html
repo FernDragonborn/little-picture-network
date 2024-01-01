@@ -1,38 +1,130 @@
-<!DOCTYPE html>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" routerLink="books">Test project Inforce</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
+<div class="p-2 d-flex">
+  <a
+    class="ps-2 pt-2 snavbar-brand link-underline link-underline-opacity-0"
+    style="font-size: 1.8em; vertical-align: middle; position: absolute"
+    routerLink=""
+    >Логотип</a
+  >
+  <nav
+    class="p-2 bg-general justify-content-around rounded-3"
+    style="display: flex; width: 23%; margin-left: auto; margin-right: auto"
+  >
+    <a
+      aria-current="page"
+      routerLink=""
+      class="hover:text-green-brand"
+      title="Персональна стрічка рекомендацій"
     >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item d-flex justify-content-evenly">
-          <a class="nav-link active" aria-current="page" routerLink="">
-            Home
-          </a>
-          <a class="nav-link active" aria-current="page" routerLink="login">
-            Log in
-          </a>
-          <a class="nav-link active" aria-current="page" routerLink="myAlbums">
-            My Albums
-          </a>
-          <a class="nav-link active" aria-current="page" routerLink="upload">
-            Upload photo
-          </a>
-        </li>
-      </ul>
+      <svg
+        aria-hidden="true"
+        fill="none"
+        height="22"
+        viewBox="0 0 22 22"
+        width="22"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11 21C16.5228 21 21 16.5228 21 11C21 5.47715 16.5228 1 11 1C5.47715 1 1 5.47715 1 11C1 16.5228 5.47715 21 11 21Z"
+          stroke="#ffffff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        ></path>
+        <path
+          d="M13.7221 7.26596C14.2107 7.10312 14.4549 7.02169 14.6174 7.07962C14.7587 7.13003 14.87 7.24127 14.9204 7.38263C14.9783 7.54507 14.8969 7.78935 14.734 8.27789L13.2465 12.7405C13.2001 12.8797 13.1769 12.9492 13.1374 13.007C13.1024 13.0582 13.0582 13.1024 13.007 13.1374C12.9492 13.1769 12.8797 13.2001 12.7405 13.2465L8.27789 14.734C7.78935 14.8969 7.54507 14.9783 7.38263 14.9204C7.24127 14.87 7.13003 14.7587 7.07962 14.6174C7.02169 14.4549 7.10312 14.2107 7.26596 13.7221L8.75351 9.25947C8.79989 9.12033 8.82308 9.05076 8.8626 8.99299C8.8976 8.94182 8.94182 8.8976 8.99299 8.8626C9.05076 8.82308 9.12033 8.79989 9.25947 8.75351L13.7221 7.26596Z"
+          stroke="#ffffff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        ></path>
+      </svg>
+    </a>
+    <div class="">
+      <a routerLink="manage" class="hover:text-green-brand" title="Зробити пост"
+        ><svg
+          aria-hidden="true"
+          fill="none"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11 4.00023H6.8C5.11984 4.00023 4.27976 4.00023 3.63803 4.32721C3.07354 4.61483 2.6146 5.07377 2.32698 5.63826C2 6.27999 2 7.12007 2 8.80023V17.2002C2 18.8804 2 19.7205 2.32698 20.3622C2.6146 20.9267 3.07354 21.3856 3.63803 21.6732C4.27976 22.0002 5.11984 22.0002 6.8 22.0002H15.2C16.8802 22.0002 17.7202 22.0002 18.362 21.6732C18.9265 21.3856 19.3854 20.9267 19.673 20.3622C20 19.7205 20 18.8804 20 17.2002V13.0002M7.99997 16.0002H9.67452C10.1637 16.0002 10.4083 16.0002 10.6385 15.945C10.8425 15.896 11.0376 15.8152 11.2166 15.7055C11.4184 15.5818 11.5914 15.4089 11.9373 15.063L21.5 5.50023C22.3284 4.6718 22.3284 3.32865 21.5 2.50023C20.6716 1.6718 19.3284 1.6718 18.5 2.50022L8.93723 12.063C8.59133 12.4089 8.41838 12.5818 8.29469 12.7837C8.18504 12.9626 8.10423 13.1577 8.05523 13.3618C7.99997 13.5919 7.99997 13.8365 7.99997 14.3257V16.0002Z"
+            stroke="#ffffff"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          ></path>
+        </svg>
+      </a>
     </div>
-  </div>
-</nav>
+    <div>
+      <a
+        routerLink="view"
+        class="hover:text-green-brand"
+        title="Збережені пости"
+      >
+        <svg
+          aria-hidden="true"
+          fill="none"
+          height="20"
+          viewBox="0 0 16 20"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 5.8C1 4.11984 1 3.27976 1.32698 2.63803C1.6146 2.07354 2.07354 1.6146 2.63803 1.32698C3.27976 1 4.11984 1 5.8 1H10.2C11.8802 1 12.7202 1 13.362 1.32698C13.9265 1.6146 14.3854 2.07354 14.673 2.63803C15 3.27976 15 4.11984 15 5.8V19L8 15L1 19V5.8Z"
+            stroke="#ffffff"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          ></path>
+        </svg>
+      </a>
+    </div>
+    <a
+      routerLink="notifications"
+      class="hover:text-green-brand"
+      title="Сповіщення"
+      ><svg
+        aria-hidden="true"
+        fill="none"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M15.0002 19C15.0002 20.6569 13.6571 22 12.0002 22C10.3434 22 9.00025 20.6569 9.00025 19M13.7968 6.23856C14.2322 5.78864 14.5002 5.17562 14.5002 4.5C14.5002 3.11929 13.381 2 12.0002 2C10.6195 2 9.50025 3.11929 9.50025 4.5C9.50025 5.17562 9.76825 5.78864 10.2037 6.23856M2.54707 8.32296C2.53272 6.87161 3.3152 5.51631 4.57928 4.80306M21.4534 8.32296C21.4678 6.87161 20.6853 5.51631 19.4212 4.80306M18.0002 11.2C18.0002 9.82087 17.3681 8.49823 16.2429 7.52304C15.1177 6.54786 13.5915 6 12.0002 6C10.4089 6 8.88283 6.54786 7.75761 7.52304C6.63239 8.49823 6.00025 9.82087 6.00025 11.2C6.00025 13.4818 5.43438 15.1506 4.72831 16.3447C3.92359 17.7056 3.52122 18.3861 3.53711 18.5486C3.55529 18.7346 3.58876 18.7933 3.73959 18.9036C3.87142 19 4.53376 19 5.85844 19H18.1421C19.4667 19 20.1291 19 20.2609 18.9036C20.4117 18.7933 20.4452 18.7346 20.4634 18.5486C20.4793 18.3861 20.0769 17.7056 19.2722 16.3447C18.5661 15.1506 18.0002 13.4818 18.0002 11.2Z"
+          stroke="#ffffff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        ></path>
+      </svg>
+    </a>
+  </nav>
 
+  <button type="button" class="rounded-5" routerLink="login">
+    <div style="width: 26px">
+      <svg
+        fill="none"
+        height="17"
+        viewBox="0 0 18 17"
+        width="18"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-1/2 w-1/2"
+      >
+        <path
+          d="M1.5 15.6667C3.44649 13.6021 6.08918 12.3333 9 12.3333C11.9108 12.3333 14.5535 13.6021 16.5 15.6667M12.75 5.25C12.75 7.32107 11.0711 9 9 9C6.92893 9 5.25 7.32107 5.25 5.25C5.25 3.17893 6.92893 1.5 9 1.5C11.0711 1.5 12.75 3.17893 12.75 5.25Z"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        ></path>
+      </svg>
+    </div>
+  </button>
+</div>
 <router-outlet class="grid"></router-outlet>

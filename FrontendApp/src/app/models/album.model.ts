@@ -1,6 +1,6 @@
 export class AlbumDto {
     albumId: string = '';
-    photoIds: string[] = [];
     userId: string = '';
+    photoIds: string[] = [];
     title: string = '';
 }

@@ -1,0 +1,45 @@
+<div style="padding: 15px">
+  <div>
+    <div class="dropzone" fileDragDrop>
+      <!--
+      (filesChangeEmiter)="onFileChange($event)">
+      -->
+      <div class="text-wrapper">
+        <div class="centered">
+          <input type="file" name="file" id="file" multiple />
+          <!--(change)="onFileChange($event)">-->
+          <label for="file"
+            ><span class="textLink" style="line-height: 3"
+              >Select your file</span
+            >
+            <br />or Drop it here!</label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+  <hr />
+  <h3 mat-subheader>Files</h3>
+  <div class="row fileItem" *ngFor="let file of files; let i = index">
+    <div class="col-sm-12 fileItemIconDiv" (click)="openConfirmDialog(i)">
+      <i class="fa-6x fileItemIcon"></i>
+    </div>
+    <div class="col-sm-12 fileItemText">
+      <span>{{ file.name }}</span>
+    </div>
+  </div>-->
+  <!--
+	<div>
+		<mat-list>
+			<h3 mat-subheader>Files</h3>
+			<mat-list-item *ngFor="let file of files">
+				<mat-icon mat-list-icon>folder</mat-icon>
+				<h4 mat-line>{{file.name}}</h4>
+				<button mat-raised-button color="warn" (click)="deleteFile(file)">Delete</button>
+				<mat-divider></mat-divider>
+			</mat-list-item>
+		</mat-list>
+	</div>
+  -->
+</div>

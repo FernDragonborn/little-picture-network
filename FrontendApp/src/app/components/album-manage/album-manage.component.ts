@@ -23,7 +23,7 @@ export class AlbumManageComponent {
   isShowAlbums: boolean = false;
 
   ngOnInit(): void {
-    this.renderList();
+    //this.renderList();
 
   }
 
