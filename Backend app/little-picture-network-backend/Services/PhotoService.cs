@@ -1,8 +1,10 @@
-﻿using LittlePictureNetworkBackend.Interfaces;
+﻿using LittlePictureNetworkBackend.Data;
+using LittlePictureNetworkBackend.DTOs;
+using LittlePictureNetworkBackend.Interfaces;
 using LittlePictureNetworkBackend.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace LittlePictureNetworkBackend.Data.Services;
+namespace LittlePictureNetworkBackend.Services;
 public class PhotoService : IDisposable
 {
     private readonly PictureNetworkDbContext _context;

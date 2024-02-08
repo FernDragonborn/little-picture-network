@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "little picture network backend", "little picture network backend.csproj", "{BCFCB8DE-50F1-49A3-985C-13841922120B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "little picture network backend", "little-picture-network-backend\little picture network backend.csproj", "{BCFCB8DE-50F1-49A3-985C-13841922120B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "little-picture-network-tests", "..\little-picture-network-backend-tests\little-picture-network-tests.csproj", "{08043EEB-E9DE-4C2A-A814-CA3721DA4B19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "little-picture-network-tests", "little-picture-network-backend-tests\little-picture-network-tests.csproj", "{08043EEB-E9DE-4C2A-A814-CA3721DA4B19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

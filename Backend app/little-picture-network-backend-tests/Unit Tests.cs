@@ -1,12 +1,131 @@
 using LittlePictureNetworkBackend;
+using LittlePictureNetworkBackend.Data;
+using LittlePictureNetworkBackend.DTOs;
 using LittlePictureNetworkBackend.Models;
+using LittlePictureNetworkBackend.PhotoConvertors;
+using LittlePictureNetworkBackend.VirusScanners;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using System.Data.Common;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Text;
+using Testcontainers.MsSql;
 
 namespace LittlePictureNetworkBackend_tests;
 
-public class Tests
+public class IntegrationTests_AlbumController : IClassFixture<WebApplicationFactory<Program>>, IDisposable
+{
+    private readonly WebApplicationFactory<Program> _factory;
+    internal readonly MsSqlContainer _msSqlContainer;
+
+    public sealed class IntegrationTestWebAppFactory<TDbContext> : WebApplicationFactory<Program> where TDbContext : DbContext
+    {
+        private readonly string _connectionString;
+
+        public IntegrationTestWebAppFactory(IntegrationTests_AlbumController controllerFixture)
+        {
+            _connectionString = controllerFixture._msSqlContainer.GetConnectionString();
+        }
+
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.ConfigureServices(services =>
+            {
+                services.Remove(services.SingleOrDefault(service => typeof(DbContextOptions<TDbContext>) == service.ServiceType));
+                services.Remove(services.SingleOrDefault(service => typeof(DbConnection) == service.ServiceType));
+                services.AddDbContext<TDbContext>((_, option) => option.UseSqlServer(_connectionString));
+            });
+        }
+    }
+
+    public IntegrationTests_AlbumController(WebApplicationFactory<Program> factory)
+    {
+        _factory = factory;
+        _msSqlContainer = new MsSqlBuilder().Build();
+    }
+
+    public Task InitializeAsync()
+    {
+        return _msSqlContainer.StartAsync();
+    }
+
+    public Task DisposeAsync()
+    {
+        return _msSqlContainer.DisposeAsync().AsTask();
+    }
+
+    public sealed class IndexPageTests : IClassFixture<IntegrationTests_AlbumController>, IDisposable
+    {
+        private readonly WebApplicationFactory<Program> _webApplicationFactory;
+
+        private readonly HttpClient _httpClient;
+
+        public IndexPageTests(IntegrationTests_AlbumController fixture)
+        {
+            var clientOptions = new WebApplicationFactoryClientOptions();
+            clientOptions.AllowAutoRedirect = false;
+
+            _webApplicationFactory = new IntegrationTestWebAppFactory<PictureNetworkDbContext>(fixture);
+            _httpClient = _webApplicationFactory.CreateClient(clientOptions);
+        }
+
+        public void Dispose()
+        {
+            _webApplicationFactory.Dispose();
+        }
+    }
+
+
+
+    [Fact]
+    public async Task CreateAlbum_ReturnsOkResult()
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+        var albumDto = new AlbumDto { UserId = "user-id", Title = "Test Album" };
+        var content = new StringContent(JsonConvert.SerializeObject(albumDto), Encoding.UTF8, "application/json");
+
+        // Act
+        var response = await client.PostAsync("/api/album/create", content);
+
+        // Assert
+        response.EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        // You can add additional assertions based on your requirements
+    }
+
+    [Fact]
+    public async Task CreateAlbum_WithInvalidInput_ReturnsBadRequest()
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+        var invalidAlbumDto = new AlbumDto(); // Invalid input
+        var content = new StringContent(JsonConvert.SerializeObject(invalidAlbumDto), Encoding.UTF8, "application/json");
+
+        // Act
+        var response = await client.PostAsync("/api/album/create", content);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+        // You can add additional assertions based on your requirements
+    }
+
+    public void Dispose()
+    {
+        // Clean up resources after tests are executed
+        _msSqlContainer?.DisposeAsync();
+    }
+}
+
+public class UitTests
 {
 
     [Fact]

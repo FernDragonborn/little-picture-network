@@ -1,29 +1,34 @@
 ﻿using LittlePictureNetworkBackend;
+using LittlePictureNetworkBackend.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Data.Common;
+using Testcontainers.MsSql;
 
-namespace LittlePictureNetworkBackend_tests.Integration_Tests
+namespace LittlePictureNetworkBackend_tests.Integration_Tests;
+class IntegrationTestWebAppFactory : WebApplicationFactory<Program>
 {
-    public sealed class IntegrationTestWebAppFactory<TDbContext> : WebApplicationFactory<Program> where TDbContext : DbContext
+    private readonly MsSqlContainer _dbContainer = new MsSqlBuilder()
+        .;
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        private readonly string _connectionString;
-
-        public IntegrationTestWebAppFactory(IntegrationTests_AlbumController controllerFixture)
+        builder.ConfigureTestServices(services =>
         {
-            _connectionString = controllerFixture._msSqlContainer.GetConnectionString();
-        }
+            var descriptor = services
+                .SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<PictureNetworkDbContext>));
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices(services =>
+            if (descriptor is not null)
             {
-                services.Remove(services.SingleOrDefault(service => typeof(DbContextOptions<TDbContext>) == service.ServiceType));
-                services.Remove(services.SingleOrDefault(service => typeof(DbConnection) == service.ServiceType));
-                services.AddDbContext<TDbContext>((_, option) => option.UseSqlServer(_connectionString));
+                services.Remove(descriptor);
+            }
+
+            services.AddDbContext<PictureNetworkDbContext>(options =>
+            {
+                options.UseSqlServer("???");
             });
-        }
+        });
     }
 }
+

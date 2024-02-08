@@ -1,11 +1,11 @@
 ﻿using AntiVirus;
 using LittlePictureNetworkBackend.Interfaces;
 
-namespace LittlePictureNetworkBackend;
+namespace LittlePictureNetworkBackend.VirusScanners;
 
 public class WindowsEmbededVirusScanner : IVirusScanner
 {
-    private AntiVirus.Scanner scanner = new AntiVirus.Scanner();
+    private Scanner scanner = new Scanner();
     public bool ScanPhotoForViruses(byte[] photoData)
     {
         //TODO rewrite

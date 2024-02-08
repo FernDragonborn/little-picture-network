@@ -1,7 +1,10 @@
 ﻿using LittlePictureNetworkBackend.Data;
-using LittlePictureNetworkBackend.Data.Services;
+using LittlePictureNetworkBackend.DTOs;
 using LittlePictureNetworkBackend.Identity;
 using LittlePictureNetworkBackend.Models;
+using LittlePictureNetworkBackend.PhotoConvertors;
+using LittlePictureNetworkBackend.Services;
+using LittlePictureNetworkBackend.VirusScanners;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

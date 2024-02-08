@@ -1,4 +1,6 @@
-﻿namespace LittlePictureNetworkBackend.Models;
+﻿using LittlePictureNetworkBackend.Models;
+
+namespace LittlePictureNetworkBackend.DTOs;
 public class UserDto
 {
     public UserDto() { }

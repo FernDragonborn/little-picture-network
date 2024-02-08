@@ -1,7 +1,8 @@
 ﻿using LittlePictureNetworkBackend.Data;
-using LittlePictureNetworkBackend.Data.Services;
+using LittlePictureNetworkBackend.DTOs;
 using LittlePictureNetworkBackend.Identity;
 using LittlePictureNetworkBackend.Models;
+using LittlePictureNetworkBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

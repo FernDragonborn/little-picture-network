@@ -1,4 +1,4 @@
-﻿namespace LittlePictureNetworkBackend.Models;
+﻿namespace LittlePictureNetworkBackend.DTOs;
 
 public class AlbumDto
 {

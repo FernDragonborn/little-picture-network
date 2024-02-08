@@ -8,6 +8,8 @@ using System.Text;
 using LittlePictureNetworkBackend.Data;
 using LittlePictureNetworkBackend.Identity;
 using LittlePictureNetworkBackend.Interfaces;
+using LittlePictureNetworkBackend.VirusScanners;
+using LittlePictureNetworkBackend.PhotoConvertors;
 
 namespace LittlePictureNetworkBackend;
 public class Program

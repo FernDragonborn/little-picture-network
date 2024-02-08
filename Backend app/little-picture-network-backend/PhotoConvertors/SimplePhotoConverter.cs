@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace LittlePictureNetworkBackend;
+namespace LittlePictureNetworkBackend.PhotoConvertors;
 
 public class SimplePhotoConverter : IPhotoConverter
 {
